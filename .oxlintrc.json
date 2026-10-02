@@ -1,10 +1,125 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "unicorn", "oxc", "react", "nextjs", "jsx-a11y"],
+  "plugins": ["typescript", "unicorn", "oxc", "react", "nextjs", "jsx-a11y", "import"],
   "categories": {
     "correctness": "error"
   },
-  "rules": {},
+  "rules": {
+    "import/no-cycle": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["@/*/*/**", "!@/shared/*", "!@/shared/*/*"],
+            "message": "Import from the slice's public API (@/<layer>/<slice>), not its internals. See docs/architecture.md."
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/views/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/*/*/**", "!@/shared/*", "!@/shared/*/*"],
+                "message": "Import from the slice's public API (@/<layer>/<slice>), not its internals. See docs/architecture.md."
+              },
+              {
+                "group": ["@/app/*", "@/views/*"],
+                "message": "views may only import from widgets, features, entities and shared; use relative imports inside a slice. See docs/architecture.md."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/widgets/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/*/*/**", "!@/shared/*", "!@/shared/*/*"],
+                "message": "Import from the slice's public API (@/<layer>/<slice>), not its internals. See docs/architecture.md."
+              },
+              {
+                "group": ["@/app/*", "@/views/*", "@/widgets/*"],
+                "message": "widgets may only import from features, entities and shared; use relative imports inside a slice. See docs/architecture.md."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/*/*/**", "!@/shared/*", "!@/shared/*/*"],
+                "message": "Import from the slice's public API (@/<layer>/<slice>), not its internals. See docs/architecture.md."
+              },
+              {
+                "group": ["@/app/*", "@/views/*", "@/widgets/*", "@/features/*"],
+                "message": "features may only import from entities and shared; use relative imports inside a slice. See docs/architecture.md."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/entities/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/*/*/**", "!@/shared/*", "!@/shared/*/*"],
+                "message": "Import from the slice's public API (@/<layer>/<slice>), not its internals. See docs/architecture.md."
+              },
+              {
+                "group": ["@/app/*", "@/views/*", "@/widgets/*", "@/features/*", "@/entities/*"],
+                "message": "entities may only import from shared; use relative imports inside a slice. See docs/architecture.md."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/shared/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/*/*/**", "!@/shared/*", "!@/shared/*/*"],
+                "message": "Import from the slice's public API (@/<layer>/<slice>), not its internals. See docs/architecture.md."
+              },
+              {
+                "group": ["@/app/*", "@/views/*", "@/widgets/*", "@/features/*", "@/entities/*"],
+                "message": "shared may only import external packages and other shared segments. See docs/architecture.md."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
   "env": {
     "builtin": true,
     "browser": true,
