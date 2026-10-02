@@ -10,7 +10,9 @@
     "prepare": "lefthook install",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "typecheck": "tsc --noEmit",
+    "ci": "bun run format:check && bun run lint && bun run typecheck && bun run build"
   },
   "dependencies": {
     "next": "16.3.8",
