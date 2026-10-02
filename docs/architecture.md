@@ -20,6 +20,8 @@ app → views → widgets → features → entities → shared
 | `entities` | `src/entities` | shared                                        |
 | `shared`   | `src/shared`   | external packages and other `shared` segments |
 
+Layer folders are created when their first slice is added; the lint rules apply by import path either way.
+
 Two Next.js-specific choices:
 
 - **`views` instead of `pages`.** A `src/pages` folder would enable Next's Pages Router, so the FSD pages layer is named `views`.
