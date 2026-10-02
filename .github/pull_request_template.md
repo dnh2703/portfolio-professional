@@ -2,15 +2,6 @@
 
 <!-- What does this PR do and why? -->
 
-## Type of change
-
-- [ ] feat: new feature
-- [ ] fix: bug fix
-- [ ] refactor: code change that neither fixes a bug nor adds a feature
-- [ ] style: UI / styling change
-- [ ] docs: documentation only
-- [ ] chore / ci: tooling, dependencies, pipeline
-
 ## Related issue
 
 <!-- e.g. Closes #123 -->
