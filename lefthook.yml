@@ -1,0 +1,23 @@
+pre-commit:
+  parallel: false
+  commands:
+    oxfmt:
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css,md,yml,yaml}"
+      run: bunx oxfmt --no-error-on-unmatched-pattern {staged_files}
+      stage_fixed: true
+    oxlint:
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs}"
+      run: bunx oxlint {staged_files}
+    typecheck:
+      glob: "*.{ts,tsx}"
+      run: bun run typecheck
+
+commit-msg:
+  commands:
+    commitlint:
+      run: bunx commitlint --edit {1}
+
+pre-push:
+  commands:
+    ci:
+      run: bun run ci
