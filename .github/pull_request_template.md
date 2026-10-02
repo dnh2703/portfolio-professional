@@ -4,7 +4,7 @@
 
 ## Related issue
 
-<!-- e.g. Closes #123 -->
+<!-- e.g. Closes #123. Delete if not applicable. -->
 
 ## Changes
 
