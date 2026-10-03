@@ -21,7 +21,7 @@ export type AvatarProps = {
 
 /**
  * Johnny's avatar, always on the cream disc. The images live in `public/` (`avatar.png`,
- * `avatar-chat.png`) so the real exports can replace the placeholders without code changes.
+ * `avatar-chat.png`; the chat variant has the nose toned to skin so the orange belongs to the badge).
  */
 export function Avatar({ size, variant = "logo", alt = "", preload, className }: AvatarProps) {
   return (
