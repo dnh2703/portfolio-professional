@@ -6,7 +6,7 @@ import { AssistantProvider } from "@/features/ask-assistant";
 import { HomePage } from "./HomePage";
 
 describe("HomePage", () => {
-  it("renders the landmarks and one shell per section in design order", () => {
+  it("renders the landmarks and every section in design order", () => {
     render(<HomePage />, { wrapper: AssistantProvider });
 
     expect(screen.getByRole("banner")).toBeInTheDocument();

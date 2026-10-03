@@ -9,6 +9,11 @@ export const siteConfig = {
   name: "Dang Nhat Huy (Johnny Dang)",
   /** Short name used by the logo lockup and headings. */
   shortName: "Johnny Dang",
+  /** One-line role, used in the page title. */
+  role: "Frontend-focused fullstack developer",
+  /** Meta and Open Graph description. */
+  description:
+    "Johnny Dang is a frontend-focused fullstack developer in Hanoi, building enterprise platforms and booking marketplaces with React, Next.js and TypeScript.",
   url: "https://dnh2703.work",
   email: "dnh2703@gmail.com",
   /** IANA time zone for the local-time clock (pass to `formatLocalTime`). */
