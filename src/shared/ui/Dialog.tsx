@@ -47,9 +47,10 @@ export type DialogProps = {
 } & ({ "aria-label": string } | { "aria-labelledby": string });
 
 /**
- * Modal dialog base (controlled), rendered as `<dialog open aria-modal="true">`. While open, focus moves to the
- * first focusable element inside, Tab is trapped, and Escape calls `onClose`. When it closes,
- * focus returns to the element that had it before (the launcher). Renders nothing when closed.
+ * Modal dialog base (controlled), rendered as `<dialog open aria-modal="true">`. While open, focus
+ * moves to the first focusable element inside, Tab is trapped, and Escape calls `onClose`. When it
+ * closes, focus returns to the element that had it before (the launcher). Renders nothing when
+ * closed.
  */
 export function Dialog({ open, onClose, children, className, ...labelProps }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
