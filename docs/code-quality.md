@@ -33,6 +33,7 @@ Where each check runs:
 | E2E + axe (`test:e2e`) | —                                      | —                   | `CI / E2E and accessibility` (Chromium, both viewports; HTML report uploaded on failure) |
 | build                  | —                                      | via `bun run ci`    | `CI / Format, lint, typecheck, build`                                                    |
 | commitlint             | commit message (`commit-msg`)          | —                   | `CI / Commit messages` and `PR title`                                                    |
+| Branch name            | —                                      | `branch-name`       | `Branch name`                                                                            |
 
 Don't bypass hooks with `--no-verify`. If a hook is wrong or too slow, fix it in a PR.
 
