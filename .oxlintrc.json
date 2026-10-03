@@ -46,8 +46,11 @@
     "unicorn/filename-case": ["error", { "case": "kebabCase" }],
     // Off: conflicts with the `_` prefix for unused vars and Next's `_private` folders.
     "no-underscore-dangle": "off",
-    // Side-effect imports are only allowed for stylesheets.
-    "import/no-unassigned-import": ["error", { "allow": ["**/*.css"] }],
+    // Side-effect imports are only allowed for stylesheets and the jest-dom matcher setup.
+    "import/no-unassigned-import": [
+      "error",
+      { "allow": ["**/*.css", "@testing-library/jest-dom/vitest"] }
+    ],
 
     // Complexity. Native `complexity` (cyclomatic) stays off: it overlaps sonarjs/cognitive-complexity.
     "sonarjs/cognitive-complexity": ["error", 15],
