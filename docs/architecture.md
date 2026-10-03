@@ -1,7 +1,7 @@
 # Architecture
 
 This project uses [Feature-Sliced Design](https://feature-sliced.design) (FSD) on top of the Next.js App Router.
-Import boundaries are enforced by oxlint (`.oxlintrc.json`).
+Import boundaries are enforced by oxlint (`.oxlintrc.json`) and [Steiger](https://github.com/feature-sliced/steiger) (`steiger.config.ts`, run with `bun run lint:fsd`).
 
 ## Layers
 
@@ -71,6 +71,46 @@ src/views/projects/
 
 The root `layout.tsx` stays in `app` and uses providers from `app/_providers`. Site chrome (header, footer) is a widget, e.g. `widgets/site-header`.
 
-## Known gap
+## Steiger
 
-Relative imports that escape a slice (e.g. `../../other-slice/ui`) are not caught by lint, because how many `../` it takes depends on file depth. Don't do it — import through the `@/` alias and the public API instead. If this becomes a problem, add [Steiger](https://github.com/feature-sliced/steiger) or a custom check.
+oxlint matches import paths as text, so it can't tell when a relative import leaves its slice (`../../other-slice/ui`): how many `../` that takes depends on file depth. Steiger resolves every import to a file and knows which layer and slice that file belongs to, so it catches it.
+
+`bun run lint:fsd` runs in `bun run ci`, in CI, and on pre-push. It is not in pre-commit because it checks the whole project, not staged files.
+
+| Rule                         | Level | Catches                                                       |
+| ---------------------------- | ----- | ------------------------------------------------------------- |
+| `fsd/forbidden-imports`      | error | Imports from a higher layer, and cross-imports between slices |
+| `fsd/no-cross-imports`       | error | Cross-imports between slices in the same layer                |
+| `fsd/no-public-api-sidestep` | error | Importing a slice's internals instead of its `index.ts`       |
+| `fsd/public-api`             | error | Slices (and `shared` segments) without an `index.ts`          |
+| `fsd/no-segmentless-slices`  | error | Slices with no `ui`/`model`/`api`/`lib`/`config` segment      |
+| `fsd/insignificant-slice`    | warn  | Slices used by only one other slice, or by none               |
+| `fsd/excessive-slicing`      | warn  | Layers with too many ungrouped slices                         |
+
+The rest of the plugin's recommended rules are on as errors. Rules that are off have a reason in `steiger.config.ts`. `fsd/no-cross-imports` overlaps with `fsd/forbidden-imports`, so a cross-import shows up twice in the output.
+
+### `views` and the `.steiger/` mirror
+
+Steiger's layer names are hard-coded (`app`, `pages`, `widgets`, `features`, `entities`, `shared`) and it has no option to rename a layer. Pointed at `src/`, it would skip `src/views` completely.
+
+So `lint:fsd` lints `.steiger/src` instead. That folder is a committed mirror of `src/` made of symlinks:
+
+```
+.steiger/
+  tsconfig.json       # @/views/* -> ./src/pages/*, @/* -> ./src/*
+  src/
+    app      -> ../../src/app
+    pages    -> ../../src/views
+    widgets  -> ../../src/widgets
+    features -> ../../src/features
+    entities -> ../../src/entities
+    shared   -> ../../src/shared
+```
+
+What this means in practice:
+
+- Diagnostics show mirror paths. `.steiger/src/pages/home/ui/Home.tsx` is `src/views/home/ui/Home.tsx`, and every other path maps one to one.
+- Messages call the layer `pages`. Read that as `views`.
+- `.steiger/tsconfig.json` repeats the `@/*` path alias so that imports resolve inside the mirror. If you change `paths` in the root `tsconfig.json`, update it too.
+- On Windows, symlinks need `git config core.symlinks true` (and Developer Mode). Without them Steiger finds no layers and passes silently. CI runs on Linux, so it still enforces the rules.
+- tsc, oxlint and oxfmt skip dot-folders, so they don't see the files twice.
