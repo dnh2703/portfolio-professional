@@ -58,11 +58,14 @@
   --text-h1: 2.25rem; /* 36 */
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.025em;
-  --text-display-sm: 6rem; /* 96: hero headline on mobile */
+  --text-display-xs: 3.625rem; /* 58: hero headline on the 390 board */
+  --text-display-xs--line-height: 0.94;
+  --text-display-xs--letter-spacing: -0.045em;
+  --text-display-sm: 6rem; /* 96: hero headline on small tablets */
   --text-display-sm--line-height: 0.95;
   --text-display-sm--letter-spacing: -0.04em;
   --text-display: 9.25rem; /* 148: hero headline on desktop */
-  --text-display--line-height: 0.9;
+  --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.045em;
   /* Stacked logo lockup (mobile header): "Johnny" over "Dang". */
   --text-logo-first: 1.1875rem; /* 19 */
