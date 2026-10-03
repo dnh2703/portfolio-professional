@@ -13,4 +13,13 @@ describe("Logo", () => {
     expect(screen.getByRole("link")).toHaveAccessibleName("Johnny Dang");
     expect(screen.queryByRole("img")).not.toBeInTheDocument();
   });
+
+  it.each(["sm", "lg"] as const)("reads the same in the stacked variant (%s)", (size) => {
+    render(
+      <a href="#top">
+        <Logo variant="stacked" size={size} />
+      </a>,
+    );
+    expect(screen.getByRole("link")).toHaveAccessibleName("Johnny Dang");
+  });
 });

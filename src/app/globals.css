@@ -73,6 +73,22 @@
   --text-display: 9.25rem; /* 148: hero headline on desktop */
   --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.045em;
+  /* Stacked logo lockup: "Johnny" over "Dang"; `-lg` is the desktop size. */
+  --text-logo-first: 1.1875rem; /* 19 */
+  --text-logo-first--line-height: 0.95;
+  --text-logo-first--letter-spacing: -0.045em;
+  --text-logo-last: 1.375rem; /* 22 */
+  --text-logo-last--line-height: 0.9;
+  --text-logo-last--letter-spacing: -0.02em;
+  --text-logo-first-lg: 1.375rem; /* 22 */
+  --text-logo-first-lg--line-height: 0.95;
+  --text-logo-first-lg--letter-spacing: -0.045em;
+  --text-logo-last-lg: 1.625rem; /* 26 */
+  --text-logo-last-lg--line-height: 0.9;
+  --text-logo-last-lg--letter-spacing: -0.02em;
+
+  /* Letter spacing */
+  --tracking-meta: 0.02em; /* uppercase meta row in the header */
 
   /* Layout */
   --container-page: 82rem; /* max-w-page: 1440 board minus 2 × 64px gutter */

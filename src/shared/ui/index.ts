@@ -6,6 +6,8 @@ export { Dialog } from "./Dialog";
 export type { DialogProps } from "./Dialog";
 export { LinkButton } from "./LinkButton";
 export type { LinkButtonProps } from "./LinkButton";
+export { LocalTime } from "./LocalTime";
+export type { LocalTimeProps } from "./LocalTime";
 export { Logo } from "./Logo";
 export type { LogoProps } from "./Logo";
 export { Marquee } from "./Marquee";
