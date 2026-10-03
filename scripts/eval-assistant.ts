@@ -78,11 +78,13 @@ async function main() {
     }),
   );
 
-  write("expected      picked        conf  question");
+  // Columns fit the longest topic id, so ids like "availability" don't run into the next one.
+  const width = Math.max(...rows.flatMap((row) => [row.expected.length, row.choice.length])) + 2;
+  write(`  ${"expected".padEnd(width)}${"picked".padEnd(width)}conf  question`);
   for (const row of rows) {
     const mark = row.choice === row.expected ? " " : "✗";
     write(
-      `${mark} ${row.expected.padEnd(12)}${row.choice.padEnd(14)}${row.confidence.toFixed(2)}  ${row.question}`,
+      `${mark} ${row.expected.padEnd(width)}${row.choice.padEnd(width)}${row.confidence.toFixed(2)}  ${row.question}`,
     );
   }
   write();
