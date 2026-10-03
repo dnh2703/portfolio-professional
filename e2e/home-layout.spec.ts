@@ -67,7 +67,7 @@ test("keyboard focus starts on the logo link with a visible ring", async ({ page
   await page.goto("/");
   await page.keyboard.press("Tab");
 
-  const logo = page.getByRole("link", { name: "Johnny Dang, back to top" });
+  const logo = page.getByRole("link", { name: "Johnny Dang · home" });
   await expect(logo).toBeFocused();
   const outline = await logo.evaluate((link) => getComputedStyle(link).outlineStyle);
   expect(outline).toBe("solid");

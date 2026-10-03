@@ -15,6 +15,8 @@ export const siteConfig = {
   timeZone: "Asia/Ho_Chi_Minh",
   timeZoneLabel: "GMT+7",
   coordinates: "21° 01′ 42″ N, 105° 51′ 15″ E",
+  /** Shorter form for narrow screens. */
+  coordinatesShort: "21° 01′ N, 105° 51′ E",
   /** Drives the "available for work" status. */
   available: true,
   // TODO(owner): replace with the real amount, e.g. "$4k".
