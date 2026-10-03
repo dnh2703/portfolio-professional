@@ -18,6 +18,13 @@ async function finishTyping() {
   });
 }
 
+/** The three quick-reply chips currently on screen. */
+function chips() {
+  return screen.queryAllByRole("button", {
+    name: /What do you build\?|Show projects|Are you available\?/,
+  });
+}
+
 describe("AssistantLauncher", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -77,6 +84,25 @@ describe("AssistantLauncher", () => {
     expect(screen.getByRole("list", { name: "Conversation" })).toHaveTextContent(
       CHIP_ANSWERS.availability,
     );
+  });
+
+  it("shows the quick replies only until the visitor sends a first message", async () => {
+    fireEvent.click(renderLauncher());
+    expect(chips()).toHaveLength(3);
+
+    fireEvent.click(screen.getByRole("button", { name: "Show projects" }));
+    expect(chips()).toHaveLength(0);
+    expect(screen.getByRole("textbox", { name: "Message" })).toHaveFocus();
+    await finishTyping();
+    expect(chips()).toHaveLength(0);
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset conversation" }));
+    expect(chips()).toHaveLength(3);
+
+    const input = screen.getByRole("textbox", { name: "Message" });
+    fireEvent.change(input, { target: { value: "hello" } });
+    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+    expect(chips()).toHaveLength(0);
   });
 
   it("resets the conversation", async () => {

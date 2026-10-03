@@ -69,6 +69,9 @@ test("keyboard only: open the assistant, ask, close, focus returns to the launch
   await page.keyboard.press("Enter");
   const conversation = dialog.getByRole("list", { name: "Conversation" });
   await expect(conversation).toContainText("What do you build?");
+  // The chips are gone after the first question; focus moves to the message field.
+  await expect(page.getByRole("button", { name: "What do you build?" })).toHaveCount(0);
+  await expect(dialog.getByRole("textbox", { name: "Message" })).toBeFocused();
   await expect(conversation).toContainText(BUILD_ANSWER, { timeout: 5000 });
   // The assistant's polite live region (the footer has its own status region too).
   await expect(page.getByRole("status").filter({ hasText: BUILD_ANSWER })).toHaveCount(1);
@@ -126,18 +129,26 @@ function hiddenBelow(page: Page) {
   });
 }
 
-/** Asks each chip in turn and checks its whole reply ends up in view. */
-async function askAndCheckScroll(page: Page, chips: string[]): Promise<void> {
-  const [chip, ...rest] = chips;
-  if (!chip) return;
-  await page.getByRole("button", { name: chip }).click();
+/**
+ * Asks each question in turn and checks its whole reply ends up in view. The first one is a quick
+ * reply; the chips are gone after that, so the rest are typed into the message field.
+ */
+async function askAndCheckScroll(page: Page, questions: string[], first = true): Promise<void> {
+  const [question, ...rest] = questions;
+  if (!question) return;
+  if (first) {
+    await page.getByRole("button", { name: question }).click();
+  } else {
+    await page.getByRole("textbox", { name: "Message" }).fill(question);
+    await page.getByRole("button", { name: "Send" }).click();
+  }
   const conversation = page.getByRole("list", { name: "Conversation" });
   await expect(conversation.getByText("Assistant is typing")).toHaveCount(0, { timeout: 5000 });
   await expect.poll(() => hiddenBelow(page)).toBe(0);
-  await askAndCheckScroll(page, rest);
+  await askAndCheckScroll(page, rest, false);
 }
 
-test("every reply scrolls fully into view above the quick replies", async ({ page }) => {
+test("every reply scrolls fully into view above the message field", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: OPEN }).click();
   const conversation = page.getByRole("list", { name: "Conversation" });
