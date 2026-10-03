@@ -58,6 +58,12 @@
   --text-h1: 2.25rem; /* 36 */
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.025em;
+  --text-statement-sm: 1.75rem; /* 28: about lead on mobile */
+  --text-statement-sm--line-height: 1.15;
+  --text-statement-sm--letter-spacing: -0.03em;
+  --text-statement: 3.25rem; /* 52: about lead on desktop */
+  --text-statement--line-height: 1.12;
+  --text-statement--letter-spacing: -0.03em;
   --text-display-sm: 6rem; /* 96: hero headline on mobile */
   --text-display-sm--line-height: 0.95;
   --text-display-sm--letter-spacing: -0.04em;
