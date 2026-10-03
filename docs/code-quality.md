@@ -81,8 +81,9 @@ The source of truth is the config: `.oxlintrc.json`, `tsconfig.json`, `steiger.c
 | Assistant launcher + panel (`features/ask-assistant`) | open/unread/typing state, async replies, focus trap |
 | "Ask about this project" trigger on a project card    | opens the assistant                                 |
 | Live local-time clock                                 | `setInterval`, current time                         |
-| Marquee                                               | animation state, pause on hover/focus               |
-| Permissions-table demo                                | interactive toggles                                 |
+| Marquee (`shared/ui`)                                 | pause button state                                  |
+| Dialog base (`shared/ui`)                             | focus trap, Escape, focus return                    |
+| Permissions-table demo (project card preview)         | interactive toggles                                 |
 
 The section around each leaf (hero, selected work, about, ...) stays a Server Component.
 
@@ -93,6 +94,39 @@ To avoid hydration mismatches, render the clock's first value from a fixed `Date
 **Fonts: `next/font` only.** No `<link>` to Google Fonts (`no-page-custom-font`). Load Geist, Geist Mono and Instrument Serif once in `src/app/layout.tsx` with a `variable` each, and map those variables to Tailwind font tokens in `@theme`. Don't call `next/font` inside a slice.
 
 **Styling: Tailwind v4 tokens.** Colors, fonts, radii and other design values are defined once as tokens in `src/app/globals.css` (`@theme`) and used through utilities (`bg-accent`, `text-muted`, `font-serif`). Don't hard-code hex values or arbitrary values like `text-[#ff5a1f]` in components. If the design needs a new value, add a token.
+
+### Design tokens
+
+Defined in `src/app/globals.css`. Tailwind's default colors and font sizes are reset, so `bg-zinc-900` or `text-sm` don't exist; use these.
+
+| Group      | Tokens (utility suffix)                                                                                                                                                           | Use                                                                                                                                                |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ground     | `bg`                                                                                                                                                                              | Page background `#0C0C0B`                                                                                                                          |
+| Surfaces   | `surface-1` … `surface-7`                                                                                                                                                         | Cards, panels, chips, hovers; darkest (`#141413`) to lightest (`#34332F`)                                                                          |
+| Lines      | `line`, `line-strong`, `dim`                                                                                                                                                      | Section/card borders, hover borders, decorative marks (`dim` is not for text)                                                                      |
+| Text       | `fg`, `secondary`, `muted`                                                                                                                                                        | Cream primary text (also the avatar disc), secondary text, meta labels. `muted` passes 4.5:1 on `bg` and `surface-1`…`surface-4` only              |
+| Accent     | `accent`, `lime`, `blue`                                                                                                                                                          | Orange for primary actions, focus ring and the logo dot. `lime` and `blue` are used once each; the slice that uses one names its role in a comment |
+| Fonts      | `font-sans`, `font-mono`, `font-serif`                                                                                                                                            | Geist (300–600), Geist Mono (400/500), Instrument Serif (400, normal + italic). Headline pattern: Geist plus one `font-serif italic` word          |
+| Type scale | `text-micro` 10, `meta` 11, `caption` 12, `small` 13, `ui` 14, `body` 15, `body-lg` 16, `lead` 17, `title` 18, `h4` 22, `h3` 26, `h2` 28, `h1` 36, `display-sm` 96, `display` 148 | px in the design; each step carries its line height (and letter spacing from `h4` up). `body` is the page default                                  |
+| Layout     | `px-gutter`, `py-section`, `max-w-page`, `page-grid`                                                                                                                              | Side gutter 20 → 64 px and section padding 72 → 120 px (switch at `md`), content max width 1312 px, grid of 4 → 12 columns                         |
+| Motion     | `animate-marquee`, `paused`                                                                                                                                                       | Marquee loop; `paused` stops any animation (`group-hover:paused`)                                                                                  |
+
+### Shared UI primitives
+
+Import from `@/shared/ui`. Build sections from these instead of restyling raw elements.
+
+| Primitive        | What it is                                                                                                                                                                                                                                                        |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Section`        | `<section>` with the 1px top border, `px-gutter py-section` and a `max-w-page` inner wrapper. Name it with `aria-labelledby`; lay out its content with `page-grid`.                                                                                               |
+| `Logo`           | Lockup: avatar on the cream disc, "Johnny" (Geist 500), "Dang" (serif italic), accent dot. Not a link; wrap it.                                                                                                                                                   |
+| `Avatar`         | `size` in px, `variant` `logo` or `chat`, decorative by default (`alt=""`). Images are `public/avatar.png` and `public/avatar-chat.png` (placeholders until the real exports replace them).                                                                       |
+| `Button`         | `<button type="button">`, `variant` `primary` / `secondary` / `ghost`, `size` `sm` / `md`. `buttonClassName()` gives the same classes to other elements.                                                                                                          |
+| `LinkButton`     | `<a>` with the button styles. `http(s)` links get the external style: new tab, "↗", and "(opens in a new tab)" for screen readers. `external={false}` opts out.                                                                                                   |
+| `Marquee`        | Client. Looping row of `<li>` children with an accessible `label`. Pauses on hover/focus and has a Pause/Play button; static and wrapped under `prefers-reduced-motion`.                                                                                          |
+| `Dialog`         | Client, controlled (`open`, `onClose`). `<dialog open aria-modal="true">` named by `aria-label` or `aria-labelledby`: focuses the first control, traps Tab, Escape calls `onClose`, returns focus on close. Unstyled: position and surface come from `className`. |
+| `VisuallyHidden` | Screen-reader-only text.                                                                                                                                                                                                                                          |
+
+`cn()` from `@/shared/lib` joins class names. It doesn't merge conflicting utilities, so pass a primitive one value per property in `className`. Site constants (name, email, time zone, links, availability) are in `siteConfig` from `@/shared/config`; placeholders still to be filled by the owner are marked `TODO(owner)` there.
 
 **Naming.**
 
@@ -110,13 +144,12 @@ Use these slices so parallel tickets don't invent conflicting ones. If you need 
 | Layer      | Slice           | Contents                                                                                                                   |
 | ---------- | --------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `app`      | `src/app`       | `layout.tsx` (fonts, `<html lang>`, providers), `page.tsx` renders `HomePage`, `_providers/` mounts the assistant provider |
-| `views`    | `home`          | `HomePage`: puts the widgets in order for desktop and mobile                                                               |
-| `widgets`  | `site-header`   | Logo, nav, local-time clock                                                                                                |
-| `widgets`  | `hero`          | Intro headline and avatar                                                                                                  |
-| `widgets`  | `selected-work` | Project card grid. Uses `entities/project` cards and the `features/ask-assistant` trigger                                  |
+| `views`    | `home`          | `HomePage`: puts the widgets in order for desktop and mobile. One slot file per section in `ui/slots/`                     |
+| `widgets`  | `site-header`   | Logo, nav, status, local-time clock                                                                                        |
+| `widgets`  | `hero`          | Intro headline, avatar, stack marquee                                                                                      |
+| `widgets`  | `selected-work` | Project card grid. Cards show previews (permissions-table demo, booking demo) and the `features/ask-assistant` trigger     |
 | `widgets`  | `about`         | Bio, experience timeline (`entities/experience`), RTL sample text                                                          |
-| `widgets`  | `stack-flow`    | Toolkit / stack section, marquee                                                                                           |
-| `widgets`  | `ai-workflow`   | AI workflow section and the permissions-table demo                                                                         |
+| `widgets`  | `stack-flow`    | Stack request-flow section ("Toolkit A · Request flow" board)                                                              |
 | `widgets`  | `site-footer`   | Contact links, copyright                                                                                                   |
 | `features` | `ask-assistant` | Chat launcher, assistant panel, typing/unread state, async replies, "ask about this project" trigger                       |
 | `entities` | `project`       | `Project` type, project data, `ProjectCard` (display only)                                                                 |
@@ -130,6 +163,8 @@ Notes:
 - **Project cards open the assistant.** `entities/project` can't import a feature, so `ProjectCard` takes an `action` slot (a `ReactNode`). `widgets/selected-work` fills that slot with the trigger from `@/features/ask-assistant`.
 - **Shared assistant state.** The launcher and the card triggers share open/unread state through a provider exported by `features/ask-assistant` and mounted in `app/_providers`. Widgets never import each other.
 - **Mobile vs desktop** is one tree with responsive utilities, not separate `mobile-*` slices.
+- **No AI-workflow section.** The home page has none ("Toolkit B" is an alternative board, not built). The permissions-table and booking demos are previews inside project cards, so they live in `widgets/selected-work`.
+- **Home page slots.** `views/home/ui/HomePage.tsx` renders `HeaderSlot`, then `HeroSlot`, `WorkSlot`, `AboutSlot`, `StackSlot` inside `<main>`, then `FooterSlot` and `AssistantSlot`. A section ticket edits only its own slot file to return its widget, so parallel PRs don't conflict in `HomePage.tsx`.
 
 ## 5. Accessibility bar
 
