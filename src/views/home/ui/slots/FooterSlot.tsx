@@ -1,14 +1,5 @@
-import { siteConfig } from "@/shared/config";
+import { SiteFooter } from "@/widgets/site-footer";
 
-// POR-14 replaces this with the site-footer widget.
 export function FooterSlot() {
-  return (
-    <footer id="contact" className="border-t border-line px-gutter pt-section pb-7 md:pb-section">
-      <div className="mx-auto max-w-page text-small text-muted">
-        <a href={`mailto:${siteConfig.email}`} className="text-fg">
-          {siteConfig.email}
-        </a>
-      </div>
-    </footer>
-  );
+  return <SiteFooter />;
 }

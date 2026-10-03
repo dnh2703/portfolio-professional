@@ -25,11 +25,14 @@
   --color-secondary: #b9b6ae; /* secondary text */
   --color-muted: #8f8c84; /* meta labels, captions (on bg and surface-1..4 only) */
   --color-accent: #ff6a3d; /* orange: primary actions, focus ring, logo dot */
+  --color-paper: #ffffff; /* light variant of the assistant launcher disc (on cream grounds) */
 
   /* Type scale: one step per size in the design (px in comments). */
   --text-*: initial;
   --text-micro: 0.625rem; /* 10 */
   --text-micro--line-height: 1.4;
+  --text-mockup-chip: 0.5625rem; /* 9: chips inside small UI mock-ups */
+  --text-mockup-chip--line-height: 1.4;
   --text-meta: 0.6875rem; /* 11: mono labels */
   --text-meta--line-height: 1.45;
   --text-caption: 0.75rem; /* 12 */
@@ -46,6 +49,8 @@
   --text-lead--line-height: 1.55;
   --text-title: 1.125rem; /* 18: card titles, logo */
   --text-title--line-height: 1.4;
+  --text-list-title: 1.25rem; /* 20: project rows on mobile */
+  --text-list-title--line-height: 1.3;
   --text-h4: 1.375rem; /* 22 */
   --text-h4--line-height: 1.3;
   --text-h4--letter-spacing: -0.01em;
@@ -79,6 +84,14 @@
   --text-display: 9.25rem; /* 148: hero headline on desktop */
   --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.045em;
+  --text-contact-mobile: 4rem; /* 64: footer headline on the 390 board */
+  --text-contact-mobile--line-height: 0.92;
+  --text-contact-mobile--letter-spacing: -0.05em;
+  --text-contact: 11rem; /* 176: footer headline on desktop */
+  --text-contact--line-height: 0.9;
+  --text-contact--letter-spacing: -0.055em;
+  --text-cta: 1.1875rem; /* 19: footer email button on desktop */
+  --text-cta--line-height: 1.4;
   /* Stacked logo lockup: "Johnny" over "Dang"; `-lg` is the desktop size. */
   --text-logo-first: 1.1875rem; /* 19 */
   --text-logo-first--line-height: 0.95;
@@ -96,11 +109,25 @@
   /* Letter spacing */
   --tracking-meta: 0.02em; /* uppercase meta row in the header */
 
+  /* Radii beyond Tailwind's defaults (sm 4, md 6, 2xl 16, 3xl 24, full). */
+  --radius-check: 0.1875rem; /* 3: checkboxes in UI mock-ups */
+  --radius-panel-sm: 0.625rem; /* 10: small app window mock-up */
+  --radius-panel: 0.875rem; /* 14: app window mock-up, option tiles */
+  --radius-tile: 1.25rem; /* 20: project preview on mobile */
+  --radius-device: 2.5rem; /* 40: phone mock-up */
+
   /* Layout */
   --container-page: 82rem; /* max-w-page: 1440 board minus 2 × 64px gutter */
 
+  /* Radii and shadows beyond Tailwind's scale */
+  --radius-panel: 1.25rem; /* 20: assistant panel */
+  --shadow-launcher: 0 10px 30px rgb(0 0 0 / 0.5);
+
   /* Motion */
   --animate-marquee: marquee 40s linear infinite; /* Marquee overrides the duration */
+  --animate-bop: bop 1s ease-in-out infinite; /* typing dots; stagger with animation-delay */
+  --animate-ring: ring 1.6s ease-out infinite; /* unread pulse on the assistant launcher */
+  --animate-pop: pop 0.24s ease-out; /* assistant panel entrance */
 
   @keyframes marquee {
     from {
@@ -108,6 +135,39 @@
     }
     to {
       transform: translateX(-50%);
+    }
+  }
+
+  @keyframes bop {
+    0%,
+    60%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.55;
+    }
+    30% {
+      transform: translateY(-3px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes ring {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent);
+    }
+    100% {
+      box-shadow: 0 0 0 14px color-mix(in srgb, var(--color-accent) 0%, transparent);
+    }
+  }
+
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
 }

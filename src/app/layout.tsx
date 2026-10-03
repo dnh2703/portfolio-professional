@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 
 import { siteConfig } from "@/shared/config";
 
+import { Providers } from "./_providers";
+
 import "./globals.css";
 
 // Exposed as CSS variables and mapped to `font-sans`, `font-mono` and `font-serif` in globals.css.
@@ -37,7 +39,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
     >
-      <body className="min-h-dvh bg-bg font-sans text-body text-fg">{children}</body>
+      <body className="min-h-dvh bg-bg font-sans text-body text-fg">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
