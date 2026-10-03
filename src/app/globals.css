@@ -115,12 +115,12 @@
   --radius-panel: 0.875rem; /* 14: app window mock-up, option tiles */
   --radius-tile: 1.25rem; /* 20: project preview on mobile */
   --radius-device: 2.5rem; /* 40: phone mock-up */
+  --radius-dialog: 1.25rem; /* 20: assistant panel */
 
   /* Layout */
   --container-page: 82rem; /* max-w-page: 1440 board minus 2 × 64px gutter */
 
-  /* Radii and shadows beyond Tailwind's scale */
-  --radius-panel: 1.25rem; /* 20: assistant panel */
+  /* Shadows */
   --shadow-launcher: 0 10px 30px rgb(0 0 0 / 0.5);
 
   /* Motion */

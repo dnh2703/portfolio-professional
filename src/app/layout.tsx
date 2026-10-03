@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 
 import { siteConfig } from "@/shared/config";
@@ -27,10 +27,32 @@ const instrumentSerif = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
+const title = `${siteConfig.shortName} · ${siteConfig.role}`;
+
+// The Open Graph image comes from `opengraph-image.tsx`; Next adds its tags and the X card falls
+// back to it.
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: siteConfig.name,
-  description: `Portfolio of ${siteConfig.name}.`,
+  title: { default: title, template: `%s · ${siteConfig.shortName}` },
+  description: siteConfig.description,
+  applicationName: siteConfig.shortName,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: siteConfig.shortName,
+    locale: "en_US",
+    title,
+    description: siteConfig.description,
+  },
+  twitter: { card: "summary_large_image", title, description: siteConfig.description },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  themeColor: "#0c0c0b", // --color-bg; metadata can't read CSS variables
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
