@@ -157,3 +157,28 @@ test("the conversation jumps without smooth scrolling under reduced motion", asy
   const conversation = page.getByRole("list", { name: "Conversation" });
   expect(await conversation.evaluate((list) => getComputedStyle(list).scrollBehavior)).toBe("auto");
 });
+
+test("the launcher is smaller than the header logo and idles on a plain dot", async ({
+  page,
+  isMobile,
+}) => {
+  await page.goto("/");
+
+  const launcher = page.getByRole("button", { name: OPEN });
+  const logoDisc = page
+    .getByRole("link", { name: "Johnny Dang · home" })
+    .locator("img")
+    .filter({ visible: true })
+    .first()
+    .locator("..");
+  const launcherBox = await launcher.boundingBox();
+  const logoBox = await logoDisc.boundingBox();
+
+  // 48 px on desktop, 40 px on mobile; the header logo disc is 52 / 44 px.
+  expect(Math.round(launcherBox?.width ?? 0)).toBe(isMobile ? 40 : 48);
+  expect(launcherBox?.width ?? 0).toBeLessThan(logoBox?.width ?? 0);
+
+  const badge = launcher.locator("[data-badge]").filter({ visible: true });
+  await expect(badge).toHaveAttribute("data-badge", "idle");
+  await expect(badge.locator("span")).toHaveCount(0);
+});

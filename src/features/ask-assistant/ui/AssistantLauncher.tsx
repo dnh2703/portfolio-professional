@@ -13,7 +13,7 @@ function CloseIcon() {
     <svg
       aria-hidden="true"
       viewBox="0 0 24 24"
-      className="size-6"
+      className="size-5 md:size-6"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -72,12 +72,13 @@ export function AssistantLauncher() {
           aria-haspopup="dialog"
           onClick={toggle}
           className={cn(
-            "pointer-events-auto relative size-16 shrink-0 rounded-full shadow-launcher",
+            // 40 / 48 px, smaller than the header logo; the ::before keeps a 44 px tap target on mobile.
+            "pointer-events-auto relative size-10 shrink-0 rounded-full shadow-launcher before:absolute before:-inset-0.5 before:content-[''] md:size-12",
             unread > 0 && !open && "motion-safe:animate-ring",
           )}
         >
           {open ? (
-            <span className="flex size-16 items-center justify-center rounded-full bg-accent text-bg">
+            <span className="flex size-10 items-center justify-center rounded-full bg-accent text-bg md:size-12">
               <CloseIcon />
             </span>
           ) : (
