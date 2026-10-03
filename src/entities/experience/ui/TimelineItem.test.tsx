@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { formatPeriod } from "../lib";
+import { formatEducationShort, formatPeriod } from "../lib";
 import { education, experience } from "../model";
 import { TimelineItem } from "./TimelineItem";
 
@@ -14,6 +14,7 @@ describe("TimelineItem", () => {
             key={item.id}
             title={item.company}
             detail={item.role}
+            hideDetailOnMobile
             period={formatPeriod(item.period)}
           />
         ))}
@@ -38,5 +39,26 @@ describe("TimelineItem", () => {
     const item = screen.getByRole("listitem");
     expect(within(item).getByText("CS50, Harvard")).toBeInTheDocument();
     expect(item).toHaveTextContent(/^CS50, HarvardIntroduction to Computer Science$/);
+  });
+
+  it("shows the short form on mobile next to the full institution name", () => {
+    const ptit = education[0];
+    render(
+      <ol>
+        <TimelineItem
+          title={ptit.institution}
+          mobileTitle={formatEducationShort(ptit)}
+          detail={ptit.program}
+          hideDetailOnMobile
+        />
+      </ol>,
+    );
+
+    const item = screen.getByRole("listitem");
+    expect(within(item).getByText("PTIT · Multimedia")).toBeInTheDocument();
+    expect(
+      within(item).getByText("Posts & Telecommunications Institute of Technology"),
+    ).toBeInTheDocument();
+    expect(within(item).getByText("Multimedia")).toBeInTheDocument();
   });
 });

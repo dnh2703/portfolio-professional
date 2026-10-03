@@ -20,11 +20,25 @@ describe("projects", () => {
     ]);
   });
 
-  it("has unique ids and non-empty copy, with a mobile line shorter than the desktop one", () => {
+  it("has the mobile names and lines from the design", () => {
+    expect(
+      projects.map((project): [string, string] => [
+        "shortName" in project ? project.shortName : project.name,
+        project.shortDescription,
+      ]),
+    ).toEqual([
+      ["Enterprise Web Platform", "Role-based admin app with SSO · Eastgate 2026"],
+      ["Event Marketplace", "EN / Arabic RTL booking portals"],
+      ["Appointment Booking", "Next.js 16 admin + NestJS API"],
+      ["Performance Tracking", "Micro-frontends · VMO"],
+      ["Parking Application", "Mapbox GL & deck.gl maps · VMO"],
+    ]);
+  });
+
+  it("has unique ids and an assistant summary for each project", () => {
     expect(new Set(projects.map((project) => project.id)).size).toBe(projects.length);
     for (const project of projects) {
       expect(project.assistantSummary.length).toBeGreaterThan(0);
-      expect(project.shortDescription.length).toBeLessThan(project.description.length);
     }
   });
 });

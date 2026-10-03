@@ -18,7 +18,12 @@ export const experience = [
 
 /** Degrees and courses, in display order. */
 export const education = [
-  { id: "ptit", institution: "PTIT", program: "Multimedia" },
+  {
+    id: "ptit",
+    institution: "Posts & Telecommunications Institute of Technology",
+    shortLabel: "PTIT",
+    program: "Multimedia",
+  },
   {
     id: "fpt-software-academy",
     institution: "FPT Software Academy",

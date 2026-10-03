@@ -6,17 +6,35 @@ import { ProjectCard } from "./ProjectCard";
 
 const project = projects[1];
 
+// jsdom loads no CSS, so both the mobile and the desktop copy are in the DOM here; which one
+// shows is decided by `md:` utilities in the browser.
 describe("ProjectCard", () => {
-  it("is an article named by the project, with both description lines and the meta", () => {
+  it("is an article named by its heading, with the desktop and mobile copy and the meta", () => {
     render(<ProjectCard project={project} />);
 
-    expect(screen.getByRole("article")).toHaveAccessibleName("Event Planning Marketplace");
-    expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Event Planning Marketplace",
-    );
+    const heading = screen.getByRole("heading", { level: 3 });
+    expect(heading).toHaveTextContent("Event Marketplace");
+    expect(heading).toHaveTextContent("Event Planning Marketplace");
+    expect(screen.getByRole("article")).toHaveAccessibleName(heading.textContent);
     expect(screen.getByText(project.description)).toBeInTheDocument();
-    expect(screen.getByText(project.shortDescription)).toBeInTheDocument();
+    expect(screen.getByText("EN / Arabic RTL booking portals")).toBeInTheDocument();
     expect(screen.getByText("Eastgate · 2026")).toBeInTheDocument();
+  });
+
+  it("falls back to the name on mobile when there is no short name", () => {
+    render(<ProjectCard project={projects[3]} />);
+
+    expect(screen.getAllByText("Performance Tracking")).toHaveLength(2);
+  });
+
+  it("adds the number and an arrow in the mobile row variant", () => {
+    const { rerender } = render(<ProjectCard project={projects[4]} />);
+    expect(screen.getAllByText("05")).toHaveLength(1);
+    expect(screen.queryByText("→")).not.toBeInTheDocument();
+
+    rerender(<ProjectCard project={projects[4]} mobileVariant="row" />);
+    expect(screen.getAllByText("05")).toHaveLength(2);
+    expect(screen.getByText("→")).toBeInTheDocument();
   });
 
   it("renders the action and preview slots", () => {

@@ -10,9 +10,14 @@ export type Project = {
   /** Position in the list, shown as `01`…`05`. */
   index: number;
   name: string;
+  /** Shorter name used on mobile instead of `name`. */
+  shortName?: string;
   /** One line under the name on desktop. */
   description: string;
-  /** Shorter line used on mobile instead of `description`. */
+  /**
+   * Line used on mobile instead of `description`. It may carry the meta itself
+   * (`"Micro-frontends · VMO"`), since mobile cards don't show the meta line.
+   */
   shortDescription: string;
   /** Where the work was done: the employer, or `Fullstack` for a personal project. */
   context: string;

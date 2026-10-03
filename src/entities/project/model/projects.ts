@@ -7,7 +7,7 @@ export const projects = [
     index: 1,
     name: "Enterprise Web Platform",
     description: "Admin app with role-based access, SSO and a drag-and-drop dashboard",
-    shortDescription: "Admin app with roles, SSO and dashboards",
+    shortDescription: "Role-based admin app with SSO · Eastgate 2026",
     context: "Eastgate",
     years: { start: 2026 },
     assistantSummary:
@@ -17,6 +17,7 @@ export const projects = [
     id: "p02",
     index: 2,
     name: "Event Planning Marketplace",
+    shortName: "Event Marketplace",
     description: "English and Arabic (RTL) portals with booking, payments and live chat",
     shortDescription: "EN / Arabic RTL booking portals",
     context: "Eastgate",
@@ -29,7 +30,7 @@ export const projects = [
     index: 3,
     name: "Appointment Booking",
     description: "Scheduling admin on Next.js 16 with a NestJS API",
-    shortDescription: "Next.js 16 admin, NestJS API",
+    shortDescription: "Next.js 16 admin + NestJS API",
     context: "Fullstack",
     years: { start: 2025, end: 2026 },
     assistantSummary:
@@ -40,7 +41,7 @@ export const projects = [
     index: 4,
     name: "Performance Tracking",
     description: "Micro-frontend app and design system on Tailwind + Ant Design",
-    shortDescription: "Micro-frontends and a design system",
+    shortDescription: "Micro-frontends · VMO",
     context: "VMO",
     years: { start: 2025 },
     assistantSummary:
@@ -51,7 +52,7 @@ export const projects = [
     index: 5,
     name: "Parking Application",
     description: "Map interfaces with Mapbox GL & deck.gl, GraphQL via Apollo",
-    shortDescription: "Mapbox GL & deck.gl maps",
+    shortDescription: "Mapbox GL & deck.gl maps · VMO",
     context: "VMO",
     years: { start: 2023, end: 2025 },
     assistantSummary:

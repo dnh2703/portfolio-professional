@@ -19,6 +19,9 @@ export type Experience = {
 
 export type Education = {
   id: string;
+  /** Full name, shown on desktop. */
   institution: string;
+  /** Short label used on mobile instead of `institution`, e.g. `"PTIT"`. */
+  shortLabel?: string;
   program: string;
 };
