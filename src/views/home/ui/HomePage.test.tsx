@@ -10,7 +10,9 @@ describe("HomePage", () => {
     expect(screen.getByRole("banner")).toBeInTheDocument();
     expect(screen.getByRole("main")).toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Johnny Dang");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Frontend that feels inevitable, built end to end.",
+    );
 
     const sections = screen.getAllByRole("region").map((region) => region.id);
     expect(sections).toEqual(["top", "work", "about", "stack"]);

@@ -48,7 +48,7 @@ export function StackFlow() {
       <div className="flex flex-col gap-6 md:gap-12">
         <div className="flex items-end justify-between gap-6">
           <div className="flex flex-col gap-5">
-            <h2 id={HEADING_ID} className="text-display-xs font-medium md:text-display-sm">
+            <h2 id={HEADING_ID} className="text-h2-mobile font-medium md:text-display-sm">
               The <em className="font-serif font-normal">stack</em>
               <span className="hidden md:inline">, end to end</span>
             </h2>
