@@ -1,40 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# portfolio-professional
 
-## Getting Started
+Personal portfolio site built with Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript, on Bun.
 
-First, run the development server:
+## Getting started
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```sh
+bun install          # also installs the lefthook git hooks
+bun run dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The first local e2e run also needs `bunx playwright install chromium`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script              | What it does                                                    |
+| ------------------- | --------------------------------------------------------------- |
+| `bun run dev`       | Dev server                                                      |
+| `bun run build`     | Production build                                                |
+| `bun run start`     | Serve the production build                                      |
+| `bun run format`    | Format with oxfmt (`format:check` to only check)                |
+| `bun run lint`      | oxlint, including type-aware rules (`lint:fix` for autofixes)   |
+| `bun run lint:fsd`  | Steiger: Feature-Sliced Design boundaries                       |
+| `bun run typecheck` | Generate route types and run `tsc`                              |
+| `bun run test`      | Vitest in watch mode (`test:ci` runs once with coverage)        |
+| `bun run test:e2e`  | Playwright + axe against the production build, desktop + mobile |
+| `bun run ci`        | Everything CI runs except e2e. The pre-push hook runs it too    |
 
-## Architecture
+## Docs
 
-The frontend follows Feature-Sliced Design, with layer boundaries enforced by oxlint. See [docs/architecture.md](docs/architecture.md).
+- [docs/code-quality.md](docs/code-quality.md): **read before picking up a UI ticket.** Checks, rules, component conventions, the FSD slice map, accessibility and testing bar, Definition of Done.
+- [docs/architecture.md](docs/architecture.md): Feature-Sliced Design layers, slices and import rules.
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Branch from `main`, use [conventional commits](https://www.conventionalcommits.org) for commits and PR titles, and fill in the [PR template](.github/pull_request_template.md). Lefthook runs format, lint and typecheck on commit and `bun run ci` on push. Don't skip the hooks.
