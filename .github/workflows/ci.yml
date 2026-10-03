@@ -28,6 +28,9 @@ jobs:
       - name: Lint
         run: bun run lint
 
+      - name: FSD architecture lint
+        run: bun run lint:fsd
+
       - name: Typecheck
         run: bun run typecheck
 
