@@ -19,5 +19,7 @@ commit-msg:
 
 pre-push:
   commands:
+    branch-name:
+      run: scripts/check-branch-name.sh
     ci:
       run: bun run ci

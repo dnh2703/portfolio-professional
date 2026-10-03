@@ -16,9 +16,17 @@ Follow Feature-Sliced Design as described in `docs/architecture.md`. Respect the
 
 Before any UI work, read `docs/code-quality.md`: commands, lint/TS rules, component conventions, the FSD slice map for the home page, the accessibility and testing bar, and the Definition of Done.
 
+# Branch names
+
+Every branch is `<type>/<por-N>-<short-slug>`, or `<type>/<short-slug>` when there is no Linear issue, e.g. `feat/por-17-jev-assistant`, `fix/eval-assistant-columns`.
+
+- `type` is a conventional commit type, the same word as the PR title: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`, `perf`, `build`, `style` or `revert`. Never `feature`, `bugfix` or `hotfix`.
+- The slug is lowercase words joined by hyphens, about five at most, not the full ticket title. The whole name is at most 50 characters.
+- `scripts/check-branch-name.sh` enforces this on `git push` (lefthook) and on every PR (`Branch name` check). Rename a bad branch with `git branch -m <new-name>` before pushing; if it is already pushed, push the new name, open the PR from it and delete the old remote branch.
+
 # Merging pull requests
 
-`main` is protected by the "Protect main" ruleset: changes land only through a PR, the `Format, lint, typecheck, build`, `Commit messages` and `PR title` checks must pass, and the PR branch must be up to date with `main`. Merged head branches are deleted automatically.
+`main` is protected by the "Protect main" ruleset: changes land only through a PR, the `Format, lint, typecheck, build`, `Commit messages`, `PR title` and `Branch name` checks must pass, and the PR branch must be up to date with `main`. Merged head branches are deleted automatically.
 
 - **Never bypass the ruleset.** Don't use `gh pr merge --admin`, don't push to `main`, and don't force-push to `main`.
 - **Before merging**, all checks are green and `mergeStateStatus` is `CLEAN`. If the branch is behind `main`, run `gh pr update-branch <pr>` (merges `main` in) and wait for CI again. Don't rebase a branch that is in review just to catch up.

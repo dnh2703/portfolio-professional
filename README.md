@@ -36,4 +36,4 @@ The assistant's `/api/assistant` route reads optional server-only keys (TypeSafe
 
 ## Contributing
 
-Branch from `main`, use [conventional commits](https://www.conventionalcommits.org) for commits and PR titles, and fill in the [PR template](.github/pull_request_template.md). Lefthook runs format, lint and typecheck on commit and `bun run ci` on push. Don't skip the hooks. How PRs are merged (squash vs. stacked PRs, keeping branches up to date) is in [AGENTS.md](AGENTS.md#merging-pull-requests).
+Branch from `main` with a name like `feat/por-17-jev-assistant` ([rule](AGENTS.md#branch-names)), use [conventional commits](https://www.conventionalcommits.org) for commits and PR titles, and fill in the [PR template](.github/pull_request_template.md). Lefthook runs format, lint and typecheck on commit and `bun run ci` on push. Don't skip the hooks. How PRs are merged (squash vs. stacked PRs, keeping branches up to date) is in [AGENTS.md](AGENTS.md#merging-pull-requests).
