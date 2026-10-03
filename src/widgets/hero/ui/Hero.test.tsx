@@ -31,7 +31,7 @@ describe("Hero", () => {
       .map((item) => item.textContent?.replace("✦", "").trim());
     expect(items).toEqual([...stack]);
     expect(screen.getAllByRole("list")).toHaveLength(1);
-    expect(screen.getByRole("button", { name: "Pause Tech stack" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Tech stack/ })).not.toBeInTheDocument();
   });
 
   it("links the availability pill to the contact section", () => {
