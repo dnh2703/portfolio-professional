@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { Marquee } from "./Marquee";
@@ -22,13 +22,9 @@ describe("Marquee", () => {
     expect(screen.getAllByText("React")).toHaveLength(2);
   });
 
-  it("toggles between pause and play", () => {
+  it("has no pause/play control", () => {
     renderMarquee();
 
-    fireEvent.click(screen.getByRole("button", { name: "Pause Tech stack" }));
-    expect(screen.getByRole("button", { name: "Play Tech stack" })).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: "Play Tech stack" }));
-    expect(screen.getByRole("button", { name: "Pause Tech stack" })).toBeInTheDocument();
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 });

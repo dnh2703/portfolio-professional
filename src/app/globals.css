@@ -227,7 +227,7 @@
   }
 }
 
-/* paused: stops a running CSS animation (marquee on hover, focus or the pause button). */
+/* paused: stops a running CSS animation (marquee on hover or focus). */
 @utility paused {
   animation-play-state: paused;
 }

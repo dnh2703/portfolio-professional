@@ -153,6 +153,7 @@ test("nav links reach every section", async ({ page, isMobile }) => {
 
 test("keyboard only: Tab walks header, sections, footer and the assistant in order", async ({
   page,
+  isMobile,
 }) => {
   const messages = collectConsole(page);
   await page.goto("/");
@@ -160,8 +161,10 @@ test("keyboard only: Tab walks header, sections, footer and the assistant in ord
 
   const stops = await tabToLauncher(page);
   const areas = stops.map((stop) => stop.area).filter((area, i, all) => area !== all[i - 1]);
-  // About and Stack are text only, so they have no tab stops of their own.
-  expect(areas).toEqual(["header", "top", "work", "footer", "assistant"]);
+  // About and Stack are text only, so they have no tab stops of their own. On desktop the hero is
+  // text only too (the marquee has no pause control); on mobile it has the "Available" link.
+  const hero = isMobile ? ["top"] : [];
+  expect(areas).toEqual(["header", ...hero, "work", "footer", "assistant"]);
   expect(stops.filter((stop) => !stop.ringVisible || !stop.inLayout)).toEqual([]);
   const outOfOrder = stops.filter((stop, i) => i > 0 && stop.order < (stops[i - 1]?.order ?? 0));
   expect(outOfOrder).toEqual([]);

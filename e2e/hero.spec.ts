@@ -17,7 +17,7 @@ test("hero owns the only h1 and the headline fits the viewport", async ({ page }
 test.describe("desktop", () => {
   test.skip(({ isMobile }) => isMobile, "facts and marquee only exist on the 1440 board");
 
-  test("shows the facts and a pausable stack marquee", async ({ page }) => {
+  test("shows the facts and a stack marquee that pauses on hover", async ({ page }) => {
     await page.goto("/");
 
     await expect(page.locator("#top").getByText("Eastgate Software")).toBeVisible();
@@ -38,10 +38,8 @@ test.describe("desktop", () => {
     expect(await playState()).toBe("paused");
 
     await page.mouse.move(0, 0);
-    await page.getByRole("button", { name: "Pause Tech stack" }).click();
-    await page.mouse.move(0, 0);
-    expect(await playState()).toBe("paused");
-    await expect(page.getByRole("button", { name: "Play Tech stack" })).toBeVisible();
+    expect(await playState()).toBe("running");
+    await expect(page.getByRole("button", { name: /Tech stack/ })).toHaveCount(0);
   });
 
   test("marquee is static under reduced motion", async ({ page }) => {
@@ -53,7 +51,6 @@ test.describe("desktop", () => {
       .locator("..")
       .evaluate((element) => getComputedStyle(element).animationName);
     expect(animation).toBe("none");
-    await expect(page.getByRole("button", { name: "Pause Tech stack" })).toBeHidden();
     const last = list.getByRole("listitem").last();
     await last.scrollIntoViewIfNeeded();
     await expect(last).toBeInViewport({ ratio: 1 });
