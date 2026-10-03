@@ -33,4 +33,4 @@ The first local e2e run also needs `bunx playwright install chromium`.
 
 ## Contributing
 
-Branch from `main`, use [conventional commits](https://www.conventionalcommits.org) for commits and PR titles, and fill in the [PR template](.github/pull_request_template.md). Lefthook runs format, lint and typecheck on commit and `bun run ci` on push. Don't skip the hooks.
+Branch from `main`, use [conventional commits](https://www.conventionalcommits.org) for commits and PR titles, and fill in the [PR template](.github/pull_request_template.md). Lefthook runs format, lint and typecheck on commit and `bun run ci` on push. Don't skip the hooks. How PRs are merged (squash vs. stacked PRs, keeping branches up to date) is in [AGENTS.md](AGENTS.md#merging-pull-requests).
