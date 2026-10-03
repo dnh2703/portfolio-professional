@@ -11,3 +11,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # Architecture
 
 Follow Feature-Sliced Design as described in `docs/architecture.md`. Respect the layer import rules; `bun run lint` enforces them.
+
+# Code quality
+
+Before any UI work, read `docs/code-quality.md`: commands, lint/TS rules, component conventions, the FSD slice map for the home page, the accessibility and testing bar, and the Definition of Done.
