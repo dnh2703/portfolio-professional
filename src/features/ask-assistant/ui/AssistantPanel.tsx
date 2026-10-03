@@ -88,7 +88,10 @@ export function AssistantPanel() {
   const [draft, setDraft] = useState("");
   const titleId = useId();
   const log = useRef<HTMLOListElement>(null);
+  const input = useRef<HTMLInputElement>(null);
   const { messages, typing } = state;
+  // Quick replies only start a conversation: once the visitor has asked anything, they go.
+  const showChips = !messages.some((message) => message.from === "user");
 
   // Keep the newest message in view. A reply replaces the typing bubble, so the bubble count can
   // stay the same while the list grows: scroll on every change to the conversation, not the count.
@@ -150,23 +153,30 @@ export function AssistantPanel() {
         {typing ? <TypingBubble /> : null}
       </ol>
 
-      <div className="flex flex-wrap gap-2 px-4 pb-3">
-        {CHIPS.map((chip) => (
-          <button
-            key={chip.id}
-            type="button"
-            onClick={() => ask({ kind: "chip", chip: chip.id }, chip.label)}
-            className="h-9 rounded-full border border-surface-7 px-3.5 text-small text-fg transition-colors hover:bg-surface-3"
-          >
-            {chip.label}
-          </button>
-        ))}
-      </div>
+      {showChips ? (
+        <div className="flex flex-wrap gap-2 px-4 pb-3">
+          {CHIPS.map((chip) => (
+            <button
+              key={chip.id}
+              type="button"
+              onClick={() => {
+                ask({ kind: "chip", chip: chip.id }, chip.label);
+                // The chips unmount once asked, so keep keyboard focus in the panel.
+                input.current?.focus();
+              }}
+              className="h-9 rounded-full border border-surface-7 px-3.5 text-small text-fg transition-colors hover:bg-surface-3"
+            >
+              {chip.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
 
       <form onSubmit={onSubmit} className="flex gap-2 border-t border-line px-4 pt-3 pb-4">
         <label className="flex flex-1">
           <VisuallyHidden>Message</VisuallyHidden>
           <input
+            ref={input}
             type="text"
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
