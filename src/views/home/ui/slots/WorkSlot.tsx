@@ -1,6 +1,6 @@
-import { SectionPlaceholder } from "../SectionPlaceholder";
+import { SelectedWork } from "@/widgets/selected-work";
 
-// POR-11 replaces this with the selected-work widget.
+// POR-15 passes `renderAction` here to swap the placeholder for the ask-assistant trigger.
 export function WorkSlot() {
-  return <SectionPlaceholder id="work" title="Selected work" ticket="POR-11" />;
+  return <SelectedWork />;
 }
