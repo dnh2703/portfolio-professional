@@ -56,7 +56,7 @@ export function SelectedWork({ renderAction = renderPlaceholderAction }: Selecte
       <div className="page-grid">
         <div className="col-span-full flex flex-col gap-6 md:gap-16">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <h2 id="work-heading" className="text-display-xs font-medium md:text-display-sm">
+            <h2 id="work-heading" className="text-h2-mobile font-medium md:text-display-sm">
               Selected <span className="font-serif font-normal italic">work</span>
             </h2>
             <p className="text-meta text-muted md:text-small md:uppercase">

@@ -18,7 +18,7 @@ export function PermissionsPreviewCompact({ className }: { className?: string })
     >
       <span className="flex items-center justify-between text-caption font-medium">
         Roles &amp; permissions
-        <span className="rounded-full bg-fg px-2 py-0.75 text-nano text-bg">Import</span>
+        <span className="rounded-full bg-fg px-2 py-0.75 text-mockup-chip text-bg">Import</span>
       </span>
       <span className="grid grid-cols-28 gap-y-2.25 border-t border-line pt-1.5 text-micro">
         {permissionRoles.map(({ role, grants }) => (

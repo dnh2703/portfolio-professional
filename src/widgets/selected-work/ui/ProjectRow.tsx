@@ -30,7 +30,7 @@ export function ProjectRow({ project, nameId, action, className }: ProjectRowPro
       <div className="flex min-w-0 flex-1 flex-col gap-0.5 md:contents">
         <h3
           id={nameId}
-          className="text-title-lg font-medium md:min-w-0 md:flex-5 md:pe-6 md:text-h1"
+          className="text-list-title font-medium md:min-w-0 md:flex-5 md:pe-6 md:text-h1"
         >
           <span className="md:hidden">{project.shortName ?? project.name}</span>
           <span className="hidden md:inline">{project.name}</span>
@@ -43,7 +43,10 @@ export function ProjectRow({ project, nameId, action, className }: ProjectRowPro
       <span className="hidden w-50 shrink-0 text-caption text-muted uppercase md:block">
         {formatProjectMeta(project)}
       </span>
-      <span aria-hidden="true" className="text-title-lg md:w-12 md:shrink-0 md:text-end md:text-h2">
+      <span
+        aria-hidden="true"
+        className="text-list-title md:w-12 md:shrink-0 md:text-end md:text-h2"
+      >
         →
       </span>
       <div className="absolute inset-0 *:size-full">{action}</div>

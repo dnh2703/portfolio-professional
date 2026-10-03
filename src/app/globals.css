@@ -30,8 +30,8 @@
   --text-*: initial;
   --text-micro: 0.625rem; /* 10 */
   --text-micro--line-height: 1.4;
-  --text-nano: 0.5625rem; /* 9: chips inside small UI mock-ups */
-  --text-nano--line-height: 1.4;
+  --text-mockup-chip: 0.5625rem; /* 9: chips inside small UI mock-ups */
+  --text-mockup-chip--line-height: 1.4;
   --text-meta: 0.6875rem; /* 11: mono labels */
   --text-meta--line-height: 1.45;
   --text-caption: 0.75rem; /* 12 */
@@ -48,28 +48,34 @@
   --text-lead--line-height: 1.55;
   --text-title: 1.125rem; /* 18: card titles, logo */
   --text-title--line-height: 1.4;
-  --text-title-lg: 1.25rem; /* 20: project rows on mobile */
-  --text-title-lg--line-height: 1.3;
+  --text-list-title: 1.25rem; /* 20: project rows on mobile */
+  --text-list-title--line-height: 1.3;
   --text-h4: 1.375rem; /* 22 */
   --text-h4--line-height: 1.3;
   --text-h4--letter-spacing: -0.01em;
   --text-h3: 1.625rem; /* 26 */
   --text-h3--line-height: 1.25;
   --text-h3--letter-spacing: -0.015em;
+  --text-h3-tight: 1.625rem; /* 26: stack step titles */
+  --text-h3-tight--line-height: 1.1;
+  --text-h3-tight--letter-spacing: -0.02em;
   --text-h2: 1.75rem; /* 28: section headings */
   --text-h2--line-height: 1.2;
   --text-h2--letter-spacing: -0.02em;
   --text-h1: 2.25rem; /* 36 */
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.025em;
-  --text-display-xs: 2.75rem; /* 44: section headings on mobile */
-  --text-display-xs--line-height: 1;
-  --text-display-xs--letter-spacing: -0.04em;
-  --text-display-sm: 6rem; /* 96: hero headline on mobile */
+  --text-h2-mobile: 2.75rem; /* 44: section headings on the 390 board */
+  --text-h2-mobile--line-height: 1;
+  --text-h2-mobile--letter-spacing: -0.04em;
+  --text-display-xs: 3.625rem; /* 58: hero headline on the 390 board */
+  --text-display-xs--line-height: 0.94;
+  --text-display-xs--letter-spacing: -0.045em;
+  --text-display-sm: 6rem; /* 96: hero headline on small tablets */
   --text-display-sm--line-height: 0.95;
   --text-display-sm--letter-spacing: -0.04em;
   --text-display: 9.25rem; /* 148: hero headline on desktop */
-  --text-display--line-height: 0.9;
+  --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.045em;
 
   /* Radii beyond Tailwind's defaults (sm 4, md 6, 2xl 16, 3xl 24, full). */
