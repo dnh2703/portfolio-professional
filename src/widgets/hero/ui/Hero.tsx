@@ -18,7 +18,7 @@ export function Hero() {
         <div className="mx-auto max-w-page">
           <h1
             id={headingId}
-            className="text-h2-mobile font-medium sm:text-display-sm lg:text-display"
+            className="text-display-xs font-medium sm:text-display-sm lg:text-display"
           >
             Frontend that feels{" "}
             <em className="font-serif font-normal tracking-tight text-accent">inevitable</em>, built
