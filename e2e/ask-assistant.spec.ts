@@ -114,3 +114,46 @@ test("typing dots and the panel entrance respect reduced motion", async ({ page 
   const dot = dialog.locator("li span[aria-hidden='true']").first();
   expect(await dot.evaluate((element) => getComputedStyle(element).animationName)).toBe("none");
 });
+
+/** Pixels of the last bubble hidden below the bottom edge of the scrolling conversation. */
+function hiddenBelow(page: Page) {
+  return page.getByRole("list", { name: "Conversation" }).evaluate((list) => {
+    const last = list.lastElementChild;
+    if (!last) return 0;
+    const bottom =
+      list.getBoundingClientRect().bottom - Number.parseFloat(getComputedStyle(list).paddingBottom);
+    return Math.max(0, Math.round(last.getBoundingClientRect().bottom - bottom));
+  });
+}
+
+/** Asks each chip in turn and checks its whole reply ends up in view. */
+async function askAndCheckScroll(page: Page, chips: string[]): Promise<void> {
+  const [chip, ...rest] = chips;
+  if (!chip) return;
+  await page.getByRole("button", { name: chip }).click();
+  const conversation = page.getByRole("list", { name: "Conversation" });
+  await expect(conversation.getByText("Assistant is typing")).toHaveCount(0, { timeout: 5000 });
+  await expect.poll(() => hiddenBelow(page)).toBe(0);
+  await askAndCheckScroll(page, rest);
+}
+
+test("every reply scrolls fully into view above the quick replies", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: OPEN }).click();
+  const conversation = page.getByRole("list", { name: "Conversation" });
+
+  // Enough long replies that the conversation has to scroll.
+  await askAndCheckScroll(page, ["What do you build?", "Show projects", "What do you build?"]);
+  expect(await conversation.evaluate((list) => list.scrollHeight > list.clientHeight)).toBe(true);
+  expect(await conversation.evaluate((list) => getComputedStyle(list).scrollBehavior)).toBe(
+    "smooth",
+  );
+});
+
+test("the conversation jumps without smooth scrolling under reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await page.getByRole("button", { name: OPEN }).click();
+  const conversation = page.getByRole("list", { name: "Conversation" });
+  expect(await conversation.evaluate((list) => getComputedStyle(list).scrollBehavior)).toBe("auto");
+});

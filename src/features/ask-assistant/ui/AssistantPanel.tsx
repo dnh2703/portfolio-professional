@@ -89,20 +89,15 @@ export function AssistantPanel() {
   const titleId = useId();
   const log = useRef<HTMLOListElement>(null);
   const { messages, typing } = state;
-  const lastCount = useRef(0);
 
-  // Keep the newest message in view: scroll whenever the number of bubbles changes.
+  // Keep the newest message in view. A reply replaces the typing bubble, so the bubble count can
+  // stay the same while the list grows: scroll on every change to the conversation, not the count.
+  // `motion-safe:scroll-smooth` on the list makes this jump instantly under reduced motion.
   useEffect(() => {
     const list = log.current;
-    const count = messages.length + (typing ? 1 : 0);
-    if (!list) {
-      lastCount.current = 0;
-      return;
-    }
-    if (count === lastCount.current) return;
-    lastCount.current = count;
+    if (!list || !state.open || (messages.length === 0 && !typing)) return;
     list.scrollTop = list.scrollHeight;
-  });
+  }, [messages, typing, state.open]);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -147,7 +142,7 @@ export function AssistantPanel() {
         aria-label="Conversation"
         // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- a scrollable region must be focusable so keyboard users can scroll it (axe scrollable-region-focusable)
         tabIndex={0}
-        className="flex flex-1 flex-col gap-2.5 overflow-auto p-4"
+        className="flex min-h-0 flex-1 flex-col gap-2.5 overflow-auto p-4 motion-safe:scroll-smooth"
       >
         {messages.map((message) => (
           <Bubble key={message.id} message={message} />
