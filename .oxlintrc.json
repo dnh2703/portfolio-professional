@@ -1,10 +1,58 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": ["typescript", "unicorn", "oxc", "react", "nextjs", "jsx-a11y", "import"],
+  "jsPlugins": ["eslint-plugin-sonarjs"],
+  // pedantic and style are not enabled as whole categories (too noisy); their useful rules are cherry-picked below.
   "categories": {
-    "correctness": "error"
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn"
   },
   "rules": {
+    // React (React 19 + React Compiler)
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "error",
+    "react/jsx-key": "error",
+    "react/no-array-index-key": "error",
+    "react/self-closing-comp": "error",
+    "react/jsx-no-useless-fragment": "error",
+    // Off: React 17+ automatic JSX runtime, React need not be in scope.
+    "react/react-in-jsx-scope": "off",
+
+    // TypeScript
+    "typescript/no-explicit-any": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/consistent-type-definitions": ["error", "type"],
+    // oxlint has no separate typescript/no-unused-vars; this one rule covers TS too.
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_"
+      }
+    ],
+
+    // General
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "eqeqeq": "error",
+    "no-param-reassign": "error",
+    // kebab-case by default; PascalCase component files under ui/ (see overrides).
+    "unicorn/filename-case": ["error", { "case": "kebabCase" }],
+    // Off: conflicts with the `_` prefix for unused vars and Next's `_private` folders.
+    "no-underscore-dangle": "off",
+    // Side-effect imports are only allowed for stylesheets.
+    "import/no-unassigned-import": ["error", { "allow": ["**/*.css"] }],
+
+    // Complexity. Native `complexity` (cyclomatic) stays off: it overlaps sonarjs/cognitive-complexity.
+    "sonarjs/cognitive-complexity": ["error", 15],
+    "max-depth": ["error", 4],
+    "max-params": ["error", 4],
+    "max-nested-callbacks": ["error", 3],
+
+    // FSD import boundaries, see docs/architecture.md
     "import/no-cycle": "error",
     "no-restricted-imports": [
       "error",
@@ -19,6 +67,36 @@
     ]
   },
   "overrides": [
+    // Component files under ui/ are PascalCase (index.ts is the exception).
+    {
+      "files": ["src/**/ui/**"],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "cases": {
+              "pascalCase": true,
+              "kebabCase": false
+            },
+            "ignore": ["^index\\.tsx?$"]
+          }
+        ]
+      }
+    },
+    // Function length is capped in logic files only; long JSX in ui/ is not hard to read.
+    {
+      "files": ["src/**/model/**", "src/**/lib/**", "src/**/api/**"],
+      "rules": {
+        "max-lines-per-function": [
+          "error",
+          {
+            "max": 80,
+            "skipBlankLines": true,
+            "skipComments": true
+          }
+        ]
+      }
+    },
     {
       "files": ["src/views/**"],
       "rules": {
