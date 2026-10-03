@@ -197,3 +197,16 @@ test.describe("with reduced motion", () => {
     expect(messages).toEqual([]);
   });
 });
+
+test("the assistant panel and the project mock-ups keep their own radii", async ({ page }) => {
+  await page.goto("/");
+  const radii = await page
+    .locator("#work *")
+    .evaluateAll((elements) => elements.map((element) => getComputedStyle(element).borderRadius));
+  // 14px: app window mock-up and booking option tiles (`rounded-panel`).
+  expect(radii).toContain("14px");
+
+  await page.getByRole("button", { name: OPEN }).click();
+  const dialog = page.getByRole("dialog", { name: "Johnny’s assistant" });
+  expect(await dialog.evaluate((element) => getComputedStyle(element).borderRadius)).toBe("20px");
+});

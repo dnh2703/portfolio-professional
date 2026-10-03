@@ -112,7 +112,7 @@ export function AssistantPanel() {
       open={state.open}
       onClose={close}
       aria-labelledby={titleId}
-      className="pointer-events-auto relative m-0 flex h-130 min-h-0 w-full flex-col overflow-hidden rounded-panel border border-surface-7 bg-bg p-0 text-fg motion-safe:animate-pop md:w-95"
+      className="pointer-events-auto relative m-0 flex h-130 min-h-0 w-full flex-col overflow-hidden rounded-dialog border border-surface-7 bg-bg p-0 text-fg motion-safe:animate-pop md:w-95"
     >
       <div className="flex items-center gap-3 border-b border-line p-4">
         <span className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-fg">
