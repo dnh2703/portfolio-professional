@@ -1,4 +1,5 @@
-// POR-15 replaces this with the ask-assistant launcher and panel (its provider mounts in app/_providers).
+import { AssistantLauncher } from "@/features/ask-assistant";
+
 export function AssistantSlot() {
-  return null;
+  return <AssistantLauncher />;
 }

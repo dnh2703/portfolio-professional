@@ -1,11 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
+import { AssistantProvider } from "@/features/ask-assistant";
+
 import { HomePage } from "./HomePage";
 
 describe("HomePage", () => {
   it("renders the landmarks and one shell per section in design order", () => {
-    render(<HomePage />);
+    render(<HomePage />, { wrapper: AssistantProvider });
 
     expect(screen.getByRole("banner")).toBeInTheDocument();
     expect(screen.getByRole("main")).toBeInTheDocument();

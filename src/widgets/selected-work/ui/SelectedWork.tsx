@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 
 import { formatProjectIndex, projects, type Project } from "@/entities/project";
+import { AskAboutProject } from "@/features/ask-assistant";
 import { Section } from "@/shared/ui";
 
-import { AskPlaceholderButton } from "./AskPlaceholderButton";
 import { BookingPreview } from "./BookingPreview";
 import { FeaturedProject } from "./FeaturedProject";
 import { PermissionsPreview } from "./PermissionsPreview";
@@ -17,12 +17,20 @@ import { ProjectRow } from "./ProjectRow";
 export type RenderProjectAction = (project: Project, options: { describedBy: string }) => ReactNode;
 
 export type SelectedWorkProps = {
-  /** Card action. Defaults to a no-op placeholder until the ask-assistant trigger lands (POR-15). */
+  /** Card action. Defaults to the ask-assistant trigger. */
   renderAction?: RenderProjectAction;
 };
 
-const renderPlaceholderAction: RenderProjectAction = (_project, { describedBy }) => (
-  <AskPlaceholderButton describedBy={describedBy} />
+/** Accessible name of every project card's action, as in the design. */
+const askProjectLabel = "Ask my assistant about this project";
+
+const renderAskAction: RenderProjectAction = (project, { describedBy }) => (
+  <AskAboutProject
+    projectId={project.id}
+    aria-label={askProjectLabel}
+    aria-describedby={describedBy}
+    className="cursor-pointer"
+  />
 );
 
 const previews: Record<string, { preview: ReactNode; tone: "dark" | "accent" }> = {
@@ -46,7 +54,7 @@ const FEATURED_MOBILE = 1;
  * "Selected work" (`#work`): large preview cards for the first projects, then a numbered list.
  * Every card and row is one button that asks the assistant about that project.
  */
-export function SelectedWork({ renderAction = renderPlaceholderAction }: SelectedWorkProps) {
+export function SelectedWork({ renderAction = renderAskAction }: SelectedWorkProps) {
   const count = formatProjectIndex(projects.length);
   const featured = projects.slice(0, FEATURED_DESKTOP);
   const rows = projects.slice(FEATURED_MOBILE);
