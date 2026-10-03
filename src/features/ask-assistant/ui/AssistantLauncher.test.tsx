@@ -31,6 +31,7 @@ describe("AssistantLauncher", () => {
   });
   afterEach(() => {
     vi.useRealTimers();
+    vi.unstubAllGlobals();
     resetFirstVisitPill();
   });
 
@@ -73,7 +74,9 @@ describe("AssistantLauncher", () => {
     expect(screen.getByRole("status")).toHaveTextContent(CHIP_ANSWERS.build);
   });
 
-  it("sends free text from the message field", async () => {
+  it("sends free text from the message field to the assistant route", async () => {
+    const fetchMock = vi.fn(async () => Response.json({ reply: CHIP_ANSWERS.availability }));
+    vi.stubGlobal("fetch", fetchMock);
     fireEvent.click(renderLauncher());
     const input = screen.getByRole("textbox", { name: "Message" });
     fireEvent.change(input, { target: { value: "Are you available?" } });
@@ -84,6 +87,7 @@ describe("AssistantLauncher", () => {
     expect(screen.getByRole("list", { name: "Conversation" })).toHaveTextContent(
       CHIP_ANSWERS.availability,
     );
+    expect(fetchMock).toHaveBeenCalledWith("/api/assistant", expect.anything());
   });
 
   it("shows the quick replies only until the visitor sends a first message", async () => {

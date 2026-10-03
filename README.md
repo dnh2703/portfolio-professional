@@ -11,20 +11,23 @@ bun run dev          # http://localhost:3000
 
 The first local e2e run also needs `bunx playwright install chromium`.
 
+The assistant's `/api/assistant` route reads optional server-only keys (TypeSafe, Telegram, Upstash). Copy [.env.example](.env.example) to `.env.local` to set them; without them it falls back to keyword matching, no alerts and an in-memory rate limit.
+
 ## Scripts
 
-| Script              | What it does                                                    |
-| ------------------- | --------------------------------------------------------------- |
-| `bun run dev`       | Dev server                                                      |
-| `bun run build`     | Production build                                                |
-| `bun run start`     | Serve the production build                                      |
-| `bun run format`    | Format with oxfmt (`format:check` to only check)                |
-| `bun run lint`      | oxlint, including type-aware rules (`lint:fix` for autofixes)   |
-| `bun run lint:fsd`  | Steiger: Feature-Sliced Design boundaries                       |
-| `bun run typecheck` | Generate route types and run `tsc`                              |
-| `bun run test`      | Vitest in watch mode (`test:ci` runs once with coverage)        |
-| `bun run test:e2e`  | Playwright + axe against the production build, desktop + mobile |
-| `bun run ci`        | Everything CI runs except e2e. The pre-push hook runs it too    |
+| Script                   | What it does                                                                                             |
+| ------------------------ | -------------------------------------------------------------------------------------------------------- |
+| `bun run dev`            | Dev server                                                                                               |
+| `bun run build`          | Production build                                                                                         |
+| `bun run start`          | Serve the production build                                                                               |
+| `bun run format`         | Format with oxfmt (`format:check` to only check)                                                         |
+| `bun run lint`           | oxlint, including type-aware rules (`lint:fix` for autofixes)                                            |
+| `bun run lint:fsd`       | Steiger: Feature-Sliced Design boundaries                                                                |
+| `bun run typecheck`      | Generate route types and run `tsc`                                                                       |
+| `bun run test`           | Vitest in watch mode (`test:ci` runs once with coverage)                                                 |
+| `bun run test:e2e`       | Playwright + axe against the production build, desktop + mobile                                          |
+| `bun run ci`             | Everything CI runs except e2e. The pre-push hook runs it too                                             |
+| `bun run eval:assistant` | Asks real Jev ~30 sample questions to tune the confidence threshold. Needs `TYPESAFE_API_KEY`; not in CI |
 
 ## Docs
 

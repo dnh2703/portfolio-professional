@@ -4,6 +4,13 @@ import type { Page } from "@playwright/test";
 
 const OPEN = "Open chat with Johnny’s assistant";
 const BUILD_ANSWER = /Data-heavy web products/;
+const FALLBACK = "I can't answer that one, but Johnny can. Email dnh2703@gmail.com.";
+
+// Typed questions are rate limited per IP. Give each test its own, so parallel tests and retries
+// never share a limit. CI has no TypeSafe key, so the route answers with its keyword matching.
+test.beforeEach(async ({ page }, testInfo) => {
+  await page.setExtraHTTPHeaders({ "x-forwarded-for": `e2e-${testInfo.testId}-${testInfo.retry}` });
+});
 
 function collectErrors(page: Page) {
   const errors: string[] = [];
@@ -192,4 +199,61 @@ test("the launcher is smaller than the header logo and idles on a plain dot", as
   const badge = launcher.locator("[data-badge]").filter({ visible: true });
   await expect(badge).toHaveAttribute("data-badge", "idle");
   await expect(badge.locator("span")).toHaveCount(0);
+});
+
+/** Types `text` into the message field and sends it. */
+async function send(page: Page, text: string) {
+  await page.getByRole("textbox", { name: "Message" }).fill(text);
+  await page.getByRole("button", { name: "Send" }).click();
+}
+
+test("a typed question is answered by the assistant route", async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto("/");
+  await page.getByRole("button", { name: OPEN }).click();
+  const conversation = page.getByRole("list", { name: "Conversation" });
+
+  const request = page.waitForRequest(
+    (req) => req.url().endsWith("/api/assistant") && req.method() === "POST",
+  );
+  await send(page, "Can I hire you?");
+  expect((await request).postDataJSON()).toEqual({ text: "Can I hire you?" });
+  await expect(conversation).toContainText(/Open to new opportunities/, { timeout: 5000 });
+
+  // Nothing matches: the honest fallback with Johnny's email.
+  await send(page, "Tell me a joke");
+  await expect(conversation.getByText(FALLBACK)).toBeVisible({ timeout: 5000 });
+
+  expect(errors).toEqual([]);
+});
+
+test("quick replies answer locally, without the assistant route", async ({ page }) => {
+  const requests: string[] = [];
+  page.on("request", (req) => {
+    if (req.url().endsWith("/api/assistant")) requests.push(req.url());
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: OPEN }).click();
+  await page.getByRole("button", { name: "Show projects" }).click();
+  await expect(page.getByRole("list", { name: "Conversation" })).toContainText(/Five recent/, {
+    timeout: 5000,
+  });
+  expect(requests).toEqual([]);
+});
+
+test("shows the route's reply, including the over-limit one", async ({ page }) => {
+  // Stands in for Jev and the rate limiter, so no key is needed.
+  await page.route("**/api/assistant", (route) =>
+    route.fulfill({
+      status: 429,
+      json: { reply: "You're asking a lot. Try again later or email dnh2703@gmail.com." },
+    }),
+  );
+  await page.goto("/");
+  await page.getByRole("button", { name: OPEN }).click();
+  await send(page, "What do you build?");
+  await expect(page.getByRole("list", { name: "Conversation" })).toContainText(
+    /You're asking a lot/,
+    { timeout: 5000 },
+  );
 });
