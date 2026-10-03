@@ -17,15 +17,14 @@
   --color-surface-5: #2a2926; /* hover on raised */
   --color-surface-6: #2e2d2a;
   --color-surface-7: #34332f; /* lightest surface; muted text fails contrast here */
-  --color-line: #3e3c38; /* 1px borders between sections and around cards */
-  --color-line-strong: #4a4843; /* borders on hover, outlined buttons */
+  --color-line: #262522; /* 1px dividers between header, sections and footer */
+  --color-line-strong: #3e3c38; /* borders of controls: outlined buttons, chips */
+  --color-line-hover: #4a4843; /* control borders on hover */
   --color-dim: #5a5852; /* decorative only (bullets, rules); not for text */
   --color-fg: #edeae3; /* cream: primary text, avatar disc */
   --color-secondary: #b9b6ae; /* secondary text */
   --color-muted: #8f8c84; /* meta labels, captions (on bg and surface-1..4 only) */
   --color-accent: #ff6a3d; /* orange: primary actions, focus ring, logo dot */
-  --color-lime: #c6f24e; /* single-use highlight; the consuming slice names the role */
-  --color-blue: #7aa2ff; /* single-use highlight; the consuming slice names the role */
 
   /* Type scale: one step per size in the design (px in comments). */
   --text-*: initial;
@@ -94,7 +93,7 @@
 @layer base {
   :root {
     --layout-gutter: 1.25rem; /* 20px on the 390 board */
-    --layout-section: 4.5rem; /* 72px */
+    --layout-section: 3.5rem; /* 56px */
     --layout-grid-gap: 1rem;
 
     @media (width >= 48rem) {

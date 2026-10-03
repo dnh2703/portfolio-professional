@@ -27,7 +27,7 @@ test("home page renders the section shells in order with the layout tokens", asy
   });
   expect(styles).toEqual({
     paddingLeft: desktop ? "64px" : "20px",
-    paddingTop: desktop ? "120px" : "72px",
+    paddingTop: desktop ? "120px" : "56px",
     borderTopWidth: "1px",
   });
 
@@ -38,6 +38,21 @@ test("home page renders the section shells in order with the layout tokens", asy
     return grid ? getComputedStyle(grid).gridTemplateColumns.split(" ").length : 0;
   });
   expect(columns).toBe(desktop ? 12 : 4);
+});
+
+test("header and footer shells use the mobile board padding", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile", "these paddings only differ on the 390 board");
+  await page.goto("/");
+
+  const padding = (selector: string) =>
+    page.locator(selector).evaluate((element) => {
+      const style = getComputedStyle(element);
+      return [style.paddingTop, style.paddingRight, style.paddingBottom, style.paddingLeft].join(
+        " ",
+      );
+    });
+  expect(await padding("body > header")).toBe("20px 20px 48px 20px");
+  expect(await padding("body > footer")).toBe("56px 20px 28px 20px");
 });
 
 test("the page never scrolls horizontally", async ({ page }) => {

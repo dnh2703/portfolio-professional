@@ -48,7 +48,7 @@ export function Marquee({ label, children, duration = 40, className }: MarqueePr
         type="button"
         aria-label={`${paused ? "Play" : "Pause"} ${label}`}
         onClick={() => setPaused(!paused)}
-        className="shrink-0 rounded-full border border-line px-3 py-1 font-mono text-meta text-secondary uppercase transition-colors hover:border-line-strong hover:text-fg motion-reduce:hidden"
+        className="shrink-0 rounded-full border border-line-strong px-3 py-1 font-mono text-meta text-secondary uppercase transition-colors hover:border-line-hover hover:text-fg motion-reduce:hidden"
       >
         {paused ? "Play" : "Pause"}
       </button>
