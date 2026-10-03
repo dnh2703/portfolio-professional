@@ -113,4 +113,4 @@ What this means in practice:
 - Messages call the layer `pages`. Read that as `views`.
 - `.steiger/tsconfig.json` repeats the `@/*` path alias so that imports resolve inside the mirror. If you change `paths` in the root `tsconfig.json`, update it too.
 - On Windows, symlinks need `git config core.symlinks true` (and Developer Mode). Without them Steiger finds no layers and passes silently. CI runs on Linux, so it still enforces the rules.
-- tsc, oxlint and oxfmt skip dot-folders, so they don't see the files twice.
+- tsc and oxfmt skip dot-folders on their own. oxlint does not, so `.oxlintrc.json` lists `.steiger/**` in `ignorePatterns`; without it every lint error shows up twice and `ui/` components fail `unicorn/filename-case` on their mirror path.
