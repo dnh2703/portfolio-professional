@@ -25,8 +25,9 @@ const variants: Record<Variant, VariantStyle> = {
   dark: {
     disc: "size-10 bg-fg md:size-12",
     images: [34, 42],
-    dot: "-top-0.5 -right-0.5 size-2.5 border-2 border-bg md:size-3",
-    pill: "-top-1 -right-1.5 h-4.5 min-w-4.5 border-2 border-bg md:h-5 md:min-w-5",
+    // Cream ring (owner request) so the orange badge reads as a sticker on the disc edge.
+    dot: "-top-0.5 -right-0.5 size-2.5 border-2 border-fg md:size-3",
+    pill: "-top-1 -right-1.5 h-4.5 min-w-4.5 border-2 border-fg md:h-5 md:min-w-5",
     typingDot: "size-0.75",
     gap: "gap-0.5",
     count: "text-micro",

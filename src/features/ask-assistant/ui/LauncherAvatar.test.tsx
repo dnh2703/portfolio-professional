@@ -33,4 +33,12 @@ describe("LauncherAvatar", () => {
     const { container } = render(<LauncherAvatar variant="light-40" />);
     expect(badge(container)?.children).toHaveLength(0);
   });
+
+  it("rings the badge in cream on the live launcher, in every state", () => {
+    for (const props of [{}, { typing: true }, { unread: 3 }]) {
+      const { container } = render(<LauncherAvatar {...props} />);
+      expect(badge(container)).toHaveClass("border-fg");
+      expect(badge(container)).not.toHaveClass("border-bg");
+    }
+  });
 });
