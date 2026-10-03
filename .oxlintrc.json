@@ -213,5 +213,5 @@
     "browser": true,
     "node": true
   },
-  "ignorePatterns": [".next/**", "node_modules/**", "next-env.d.ts"]
+  "ignorePatterns": [".next/**", "node_modules/**", "next-env.d.ts", ".steiger/**"]
 }
