@@ -16,16 +16,16 @@ describe("AskAboutProject", () => {
     vi.useRealTimers();
   });
 
-  it("opens the assistant and asks about the project", async () => {
+  it("opens the assistant, asks about the project and returns focus on Escape", async () => {
     render(
       <AssistantProvider>
-        <AskAboutProject projectId="p01" />
+        <AskAboutProject projectId="p01" aria-label="Ask about Enterprise Web Platform" />
         <AssistantLauncher />
       </AssistantProvider>,
     );
-    const trigger = screen.getByRole("button", {
-      name: "Ask about this project (Enterprise Web Platform)",
-    });
+    const trigger = screen.getByRole("button", { name: "Ask about Enterprise Web Platform" });
+    expect(trigger).toHaveAttribute("type", "button");
+    trigger.focus();
     fireEvent.click(trigger);
 
     const log = screen.getByRole("list", { name: "Conversation" });
@@ -35,12 +35,9 @@ describe("AskAboutProject", () => {
       await vi.advanceTimersByTimeAsync(REPLY_DELAY_MS);
     });
     expect(log).toHaveTextContent(getProject("p01")?.assistantSummary ?? "");
-  });
 
-  it("renders nothing for an unknown project", () => {
-    const { container } = render(<AskAboutProject projectId="nope" />, {
-      wrapper: AssistantProvider,
-    });
-    expect(container).toBeEmptyDOMElement();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
   });
 });

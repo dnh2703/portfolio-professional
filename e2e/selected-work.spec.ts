@@ -13,13 +13,16 @@ test("every project is one visible button that Enter activates", async ({ page }
   await Promise.all((await buttons.all()).map((button) => expect(button).toBeVisible()));
 
   const first = buttons.first();
-  await first.evaluate((button) => {
-    button.addEventListener("click", () => button.setAttribute("data-activated", ""));
-  });
   await first.focus();
-  await page.keyboard.press("Enter");
-  await expect(first).toHaveAttribute("data-activated", "");
   expect(await first.evaluate((button) => getComputedStyle(button).outlineStyle)).toBe("solid");
+
+  // Enter asks the assistant about the project; Escape brings focus back to the card.
+  await page.keyboard.press("Enter");
+  const dialog = page.getByRole("dialog", { name: "Johnny\u2019s assistant" });
+  await expect(dialog).toContainText("Tell me about Enterprise Web Platform");
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(first).toBeFocused();
 });
 
 test("only the first card has a preview on mobile", async ({ page }, testInfo) => {
