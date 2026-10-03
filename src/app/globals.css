@@ -52,12 +52,18 @@
   --text-h3: 1.625rem; /* 26 */
   --text-h3--line-height: 1.25;
   --text-h3--letter-spacing: -0.015em;
+  --text-h3-tight: 1.625rem; /* 26: stack step titles */
+  --text-h3-tight--line-height: 1.1;
+  --text-h3-tight--letter-spacing: -0.02em;
   --text-h2: 1.75rem; /* 28: section headings */
   --text-h2--line-height: 1.2;
   --text-h2--letter-spacing: -0.02em;
   --text-h1: 2.25rem; /* 36 */
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.025em;
+  --text-display-xs: 2.75rem; /* 44: section headline on mobile */
+  --text-display-xs--line-height: 1;
+  --text-display-xs--letter-spacing: -0.04em;
   --text-display-sm: 6rem; /* 96: hero headline on mobile */
   --text-display-sm--line-height: 0.95;
   --text-display-sm--letter-spacing: -0.04em;

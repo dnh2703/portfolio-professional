@@ -42,3 +42,12 @@ export const flowSteps: readonly FlowStep[] = [
     shortText: "Playwright replays the flow, CI blocks a broken merge, then it deploys.",
   },
 ];
+
+/** How a step is highlighted: the first is cream, the last is accent, the ones between are plain. */
+export type StepTone = "start" | "middle" | "end";
+
+export function stepTone(index: number, count: number): StepTone {
+  if (index === 0) return "start";
+  if (index === count - 1) return "end";
+  return "middle";
+}

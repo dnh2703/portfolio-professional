@@ -8,13 +8,12 @@ describe("StackFlow", () => {
     render(<StackFlow />);
 
     expect(screen.getByRole("region")).toHaveAttribute("id", "stack");
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "The stack, end to end(05)",
-    );
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("The stack, end to end");
     expect(screen.getByText("(Stack) · Request flow")).toBeInTheDocument();
+    // One copy sits under the heading on desktop, the other below the heading row on mobile.
     expect(
-      screen.getByText("Follow one request: an admin lets Editors export reports"),
-    ).toBeInTheDocument();
+      screen.getAllByText("Follow one request: an admin lets Editors export reports"),
+    ).toHaveLength(2);
   });
 
   it("lists the five steps in order as an ordered list with headings", () => {
