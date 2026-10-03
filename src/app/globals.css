@@ -78,6 +78,14 @@
   --text-display: 9.25rem; /* 148: hero headline on desktop */
   --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.045em;
+  --text-contact-mobile: 4rem; /* 64: footer headline on the 390 board */
+  --text-contact-mobile--line-height: 0.92;
+  --text-contact-mobile--letter-spacing: -0.05em;
+  --text-contact: 11rem; /* 176: footer headline on desktop */
+  --text-contact--line-height: 0.9;
+  --text-contact--letter-spacing: -0.055em;
+  --text-cta: 1.1875rem; /* 19: footer email button on desktop */
+  --text-cta--line-height: 1.4;
   /* Stacked logo lockup: "Johnny" over "Dang"; `-lg` is the desktop size. */
   --text-logo-first: 1.1875rem; /* 19 */
   --text-logo-first--line-height: 0.95;
