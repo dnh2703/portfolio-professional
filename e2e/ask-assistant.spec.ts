@@ -70,7 +70,8 @@ test("keyboard only: open the assistant, ask, close, focus returns to the launch
   const conversation = dialog.getByRole("list", { name: "Conversation" });
   await expect(conversation).toContainText("What do you build?");
   await expect(conversation).toContainText(BUILD_ANSWER, { timeout: 5000 });
-  await expect(page.getByRole("status")).toContainText(BUILD_ANSWER);
+  // The assistant's polite live region (the footer has its own status region too).
+  await expect(page.getByRole("status").filter({ hasText: BUILD_ANSWER })).toHaveCount(1);
 
   // Tab stays inside the panel.
   await press(page, "Tab", 10);
