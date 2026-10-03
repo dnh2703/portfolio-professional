@@ -51,7 +51,8 @@ test("header and footer shells use the mobile board padding", async ({ page }, t
         " ",
       );
     });
-  expect(await padding("body > header")).toBe("20px 20px 48px 20px");
+  // The hero closes the header block with its bottom padding and border.
+  expect(await padding("body > header")).toBe("20px 20px 0px 20px");
   expect(await padding("body > footer")).toBe("56px 20px 28px 20px");
 });
 

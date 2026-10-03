@@ -3,7 +3,12 @@ import { cn } from "@/shared/lib";
 import { Avatar } from "./Avatar";
 
 export type LogoProps = {
-  /** Avatar diameter in px. */
+  /**
+   * `inline`: avatar, then "Johnny Dang" on one line. `stacked`: a 44px disc with "Johnny" above
+   * "Dang" (mobile header).
+   */
+  variant?: "inline" | "stacked";
+  /** Avatar diameter in px for the inline lockup. */
   avatarSize?: number;
   /** Preload the avatar image when the logo is above the fold. */
   preload?: boolean;
@@ -12,9 +17,27 @@ export type LogoProps = {
 
 /**
  * Logo lockup: avatar on the cream disc, "Johnny" in Geist 500, "Dang" in Instrument Serif italic
- * and an accent dot. Not a link by itself; wrap it in one where it navigates.
+ * and an accent dot (a "." in the stacked lockup). Not a link by itself; wrap it in one where it navigates.
  */
-export function Logo({ avatarSize = 28, preload, className }: LogoProps) {
+export function Logo({ variant = "inline", avatarSize = 28, preload, className }: LogoProps) {
+  if (variant === "stacked") {
+    return (
+      <span className={cn("inline-flex items-center gap-2.5 text-fg", className)}>
+        {/* 38px image inside the 44px disc. */}
+        <Avatar size={44} preload={preload} className="p-0.75" />
+        <span className="flex flex-col">
+          <span className="text-logo-first font-medium">Johnny</span>{" "}
+          <span className="font-serif text-logo-last italic">
+            Dang
+            <span aria-hidden="true" className="text-accent">
+              .
+            </span>
+          </span>
+        </span>
+      </span>
+    );
+  }
+
   return (
     <span className={cn("inline-flex items-center gap-2.5 text-title text-fg", className)}>
       <Avatar size={avatarSize} preload={preload} />

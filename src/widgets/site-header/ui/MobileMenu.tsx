@@ -36,12 +36,24 @@ export function MobileMenu({ items, className }: MobileMenuProps) {
       <button
         ref={buttonRef}
         type="button"
+        aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen(!open)}
-        className="inline-flex h-9 items-center gap-2 rounded-full border border-line-strong px-4 font-mono text-meta text-fg uppercase transition-colors hover:border-line-hover"
+        className="inline-flex size-11 items-center justify-center rounded-full border border-surface-7 text-fg transition-colors hover:border-line-hover"
       >
-        {open ? "Close menu" : "Open menu"}
+        <svg
+          aria-hidden="true"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        >
+          <path d={open ? "M6 6l12 12M18 6L6 18" : "M4 8h16M4 16h16"} />
+        </svg>
       </button>
       <nav
         id={panelId}

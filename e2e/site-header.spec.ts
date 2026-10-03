@@ -5,7 +5,7 @@ import type { Page } from "@playwright/test";
 function statusAnimations(page: Page) {
   return page
     .getByRole("banner")
-    .getByText("Available for projects")
+    .getByRole("link", { name: "Available for projects" })
     .evaluate((status) =>
       Array.from(status.querySelectorAll("*")).map((dot) => getComputedStyle(dot).animationName),
     );
@@ -18,10 +18,14 @@ test("desktop header shows the nav, status and meta row", async ({ page }, testI
 
   const nav = header.getByRole("navigation", { name: "Primary" });
   await expect(nav.getByRole("link")).toHaveText(["Work", "About", "Stack", "Contact"]);
-  await expect(header.getByText("Available for projects")).toBeVisible();
+  await expect(header.getByRole("link", { name: "Available for projects" })).toBeVisible();
   await expect(header.getByText("21° 01′ 42″ N, 105° 51′ 15″ E")).toBeVisible();
   await expect(header.getByText("Portfolio ©2026")).toBeVisible();
-  await expect(header.getByText(/^\d{2}:\d{2} GMT\+7$/)).toBeVisible();
+  await expect(header.getByText(/^Local time \d{2}:\d{2} GMT\+7$/)).toBeVisible();
+  await expect(header.getByRole("link", { name: "Available for projects" })).toHaveAttribute(
+    "href",
+    "#contact",
+  );
   await expect(header.getByRole("button", { name: "Open menu" })).toBeHidden();
 });
 
