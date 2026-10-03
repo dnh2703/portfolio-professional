@@ -1,6 +1,5 @@
-import { SectionPlaceholder } from "../SectionPlaceholder";
+import { StackFlow } from "@/widgets/stack-flow";
 
-// POR-13 replaces this with the stack-flow widget.
 export function StackSlot() {
-  return <SectionPlaceholder id="stack" title="Stack" ticket="POR-13" />;
+  return <StackFlow />;
 }

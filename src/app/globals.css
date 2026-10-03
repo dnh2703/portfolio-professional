@@ -52,6 +52,9 @@
   --text-h3: 1.625rem; /* 26 */
   --text-h3--line-height: 1.25;
   --text-h3--letter-spacing: -0.015em;
+  --text-h3-tight: 1.625rem; /* 26: stack step titles */
+  --text-h3-tight--line-height: 1.1;
+  --text-h3-tight--letter-spacing: -0.02em;
   --text-h2: 1.75rem; /* 28: section headings */
   --text-h2--line-height: 1.2;
   --text-h2--letter-spacing: -0.02em;
@@ -64,12 +67,34 @@
   --text-statement: 3.25rem; /* 52: about lead on desktop */
   --text-statement--line-height: 1.12;
   --text-statement--letter-spacing: -0.03em;
-  --text-display-sm: 6rem; /* 96: hero headline on mobile */
+  --text-h2-mobile: 2.75rem; /* 44: section headings on the 390 board */
+  --text-h2-mobile--line-height: 1;
+  --text-h2-mobile--letter-spacing: -0.04em;
+  --text-display-xs: 3.625rem; /* 58: hero headline on the 390 board */
+  --text-display-xs--line-height: 0.94;
+  --text-display-xs--letter-spacing: -0.045em;
+  --text-display-sm: 6rem; /* 96: hero headline on small tablets */
   --text-display-sm--line-height: 0.95;
   --text-display-sm--letter-spacing: -0.04em;
   --text-display: 9.25rem; /* 148: hero headline on desktop */
-  --text-display--line-height: 0.9;
+  --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.045em;
+  /* Stacked logo lockup: "Johnny" over "Dang"; `-lg` is the desktop size. */
+  --text-logo-first: 1.1875rem; /* 19 */
+  --text-logo-first--line-height: 0.95;
+  --text-logo-first--letter-spacing: -0.045em;
+  --text-logo-last: 1.375rem; /* 22 */
+  --text-logo-last--line-height: 0.9;
+  --text-logo-last--letter-spacing: -0.02em;
+  --text-logo-first-lg: 1.375rem; /* 22 */
+  --text-logo-first-lg--line-height: 0.95;
+  --text-logo-first-lg--letter-spacing: -0.045em;
+  --text-logo-last-lg: 1.625rem; /* 26 */
+  --text-logo-last-lg--line-height: 0.9;
+  --text-logo-last-lg--letter-spacing: -0.02em;
+
+  /* Letter spacing */
+  --tracking-meta: 0.02em; /* uppercase meta row in the header */
 
   /* Layout */
   --container-page: 82rem; /* max-w-page: 1440 board minus 2 × 64px gutter */
