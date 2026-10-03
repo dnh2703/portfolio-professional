@@ -21,7 +21,9 @@ test.describe("desktop", () => {
     await page.goto("/");
 
     await expect(page.getByText("Eastgate Software")).toBeVisible();
-    await expect(page.getByRole("link", { name: "Available for projects" })).toBeHidden();
+    await expect(
+      page.getByRole("main").getByRole("link", { name: "Available for projects" }),
+    ).toBeHidden();
 
     const list = page.getByRole("list", { name: "Tech stack" });
     await expect(list.getByRole("listitem")).toHaveCount(12);
@@ -65,7 +67,9 @@ test.describe("mobile", () => {
     await page.goto("/");
 
     await expect(page.getByText(/building enterprise platforms and marketplaces\.$/)).toBeVisible();
-    await expect(page.getByRole("link", { name: "Available for projects" })).toBeVisible();
+    await expect(
+      page.getByRole("main").getByRole("link", { name: "Available for projects" }),
+    ).toBeVisible();
     await expect(page.getByRole("list", { name: "Tech stack" })).toBeHidden();
     await expect(page.getByText("Eastgate Software")).toBeHidden();
   });
