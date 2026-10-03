@@ -9,6 +9,14 @@ export type Message = {
 
 export type ChipId = "build" | "projects" | "availability";
 
+/** Something a typed question can be about, with the description Jev sees and the answer. */
+export type Topic = {
+  /** Option label sent to Jev, e.g. `"frontend"` or a project id. */
+  id: string;
+  description: string;
+  answer: string;
+};
+
 /** What the visitor asked. The reply source (`getReply`) answers each kind. */
 export type Question =
   | { kind: "chip"; chip: ChipId }

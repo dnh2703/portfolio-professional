@@ -159,12 +159,13 @@ Use these slices so parallel tickets don't invent conflicting ones. If you need 
 | `widgets`  | `about`         | Statement, experience and education (`entities/experience`), how I work, off-screen, stack tags on mobile                                                                              |
 | `widgets`  | `stack-flow`    | Stack request-flow section ("Toolkit A · Request flow" board)                                                                                                                          |
 | `widgets`  | `site-footer`   | Contact headline, email link and copy button, profile links, local time, back to top                                                                                                   |
-| `features` | `ask-assistant` | Chat launcher, assistant panel, typing/unread state, async replies, `AskAboutProject` trigger                                                                                          |
+| `features` | `ask-assistant` | Chat launcher, assistant panel, typing/unread state, async replies, `AskAboutProject` trigger, topic catalog and typed-question answering for `app/api/assistant`                      |
 | `entities` | `project`       | `Project` type, project data and formatters                                                                                                                                            |
 | `entities` | `experience`    | `Experience` and `Education` types, data and formatters                                                                                                                                |
 | `shared`   | `ui`            | Design-system primitives: `Section`, `Button`, `Logo`, `Avatar`, `Marquee`, `Dialog`, `LocalTime`, `VisuallyHidden`, ...                                                               |
 | `shared`   | `lib`           | Framework-free helpers, e.g. `cn`, `formatLocalTime`                                                                                                                                   |
 | `shared`   | `config`        | Site constants (owner name, description, time zone, links, `TODO(owner)` placeholders)                                                                                                 |
+| `shared`   | `api`           | **Server-only** clients: Jev (`@typesafe-ai/sdk`), Telegram notifier, rate limiter and its store (Upstash or memory). Never import it from a client module                             |
 
 Notes:
 
