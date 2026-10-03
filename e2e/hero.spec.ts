@@ -20,7 +20,7 @@ test.describe("desktop", () => {
   test("shows the facts and a pausable stack marquee", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByText("Eastgate Software")).toBeVisible();
+    await expect(page.locator("#top").getByText("Eastgate Software")).toBeVisible();
     await expect(
       page.getByRole("main").getByRole("link", { name: "Available for projects" }),
     ).toBeHidden();
@@ -71,6 +71,6 @@ test.describe("mobile", () => {
       page.getByRole("main").getByRole("link", { name: "Available for projects" }),
     ).toBeVisible();
     await expect(page.getByRole("list", { name: "Tech stack" })).toBeHidden();
-    await expect(page.getByText("Eastgate Software")).toBeHidden();
+    await expect(page.locator("#top").getByText("Eastgate Software")).toBeHidden();
   });
 });
